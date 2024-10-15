@@ -17,6 +17,11 @@ namespace QuickBite.Controllers
         {
             return View();
         }
+        [Route("/about")]
+        public IActionResult About()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {
