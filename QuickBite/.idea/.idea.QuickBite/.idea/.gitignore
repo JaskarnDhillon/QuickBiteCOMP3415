@@ -11,3 +11,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+# App settings
+/QuickBite/appsettings.json
+/QuickBite/appsettings.development.json
