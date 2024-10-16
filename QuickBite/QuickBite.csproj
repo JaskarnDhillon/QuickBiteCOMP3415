@@ -74,6 +74,16 @@
     <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
     <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Shared\_ExamplePartial.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Views\Shared\_ExamplePartial.cshtml.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\icons\" />
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
 
   <Target Name="Tailwind" BeforeTargets="Build">
     <Exec Command="npm run css:build" />
