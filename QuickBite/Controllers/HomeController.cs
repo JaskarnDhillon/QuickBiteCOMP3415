@@ -46,6 +46,12 @@ namespace QuickBite.Controllers
         {
             return View();
         }
+        
+        [Route("/terms-of-use")]
+        public IActionResult TermsOfUse()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
