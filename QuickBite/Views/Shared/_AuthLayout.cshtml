@@ -1,7 +1,6 @@
 ﻿
 @{
 // Ensure ShowHeader is true by default if it's not set in a page
-    var ShowHeader = ViewBag.ShowHeader ?? true;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -16,32 +15,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="mb-0">
-
-@if (ShowHeader)
-{
-<header class='absolute left-0 top-0 z-10 w-full'>
-    <nav class="flex items-center justify-between py-3 px-4 sm:px-10 w-full">
-        <div class="w-full flex justify-start sm:ml-[150px] md:justify-center">
-            <div class="">
-                <a href="/" class='flex gap-1 items-center'>
-                    <img src="~/icons/qbLogo.svg" alt="quickbite logo" width="100" height="100" class=''/>
-                    <div class="hidden sm:flex items-center text-[25px]">
-                        <h1 class='font-bold text-white'>Quick</h1>
-                        <span class='text-yellow font-bold'>Bite</span>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <partial name="_LoginPartial" />
-    </nav>
-</header>
-}
-    <div class="">
         <main role="main" >
             @RenderBody()
         </main>
         @*<partial name="ExamplePartial" />*@
-    </div>
     @*<footer class="">
         <div class="">
             &copy; 2024 - QuickBite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>

@@ -41,17 +41,17 @@
                 <div class="flex flex-col gap-2 relative">
                     <label asp-for="Input.Password" class="text-gray-700"></label>
                     <input asp-for="Input.Password" class="text-black py-3 px-4 rounded-[10px] border-2 focus:border-orange outline-none" placeholder="*********"/>
-                    <button type="button" class="absolute right-3 top-1/2 transform -translate-y-[0%] focus:outline-none">
+                    <button type="button" class="absolute right-3 top-[53%] transform -translate-y-[0%] focus:outline-none">
                         <!-- Toggle password visibility logic here, replace with C# logic for showPassword -->
                         <i class="fa-solid fa-eye-slash" style="color: #374151;"></i>
                     </button>
                     <span asp-validation-for="Input.Password" class="text-red-600 text-sm"></span>
                 </div>
-
+                
                 <div class="flex flex-col gap-2 relative">
                     <label asp-for="Input.ConfirmPassword" class="text-gray-700"></label>
                     <input asp-for="Input.ConfirmPassword" class="text-black py-3 px-4 rounded-[10px] border-2 focus:border-orange outline-none" placeholder="*********"/>
-                    <button type="button" class="absolute right-3 top-1/2 transform -translate-y-[0%] focus:outline-none">
+                    <button type="button" class="absolute right-3 top-[53%] transform -translate-y-[0%] focus:outline-none">
                         <!-- Toggle password visibility logic here, replace with C# logic for showPassword -->
                         <i class="fa-solid fa-eye-slash" style="color: #374151;"></i>
                     </button>
@@ -65,7 +65,7 @@
                 }*@
 
                 <!-- Submit Button -->
-                <button type="submit" class="rounded-[10px] bg-orange py-3 font-semibold transition-all duration-300 hover:opacity-70">Sign Up</button>
+                <button type="submit" class="rounded-[10px] bg-orange py-3 font-semibold transition-all duration-300 hover:opacity-70">Sign In</button>
             </form>
         </div>
 
@@ -96,6 +96,18 @@
         });
     });
 
+    // Check if the passwords match
+    const form = document.getElementById('account');
+    form.addEventListener('submit', function (e) {
+        const passwordInputs = document.querySelectorAll('input[type="password"]');
+        const password1 = passwordInputs[0].value;
+        const password2 = passwordInputs[1].value;
+
+        if (password1 !== password2) {
+            e.preventDefault();  
+            
+        }
+    });
 </script>
 
 
