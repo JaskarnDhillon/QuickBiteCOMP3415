@@ -41,6 +41,7 @@ namespace QuickBite.Controllers
         }
         
 
+        [Route("/privacy-policy")]
         public IActionResult Privacy()
         {
             return View();

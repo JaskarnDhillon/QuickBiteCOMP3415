@@ -1,7 +1,5 @@
 ﻿
 @{
-// Ensure ShowHeader is true by default if it's not set in a page
-    var ShowHeader = ViewBag.ShowHeader ?? true;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -17,9 +15,7 @@
 </head>
 <body class="mb-0">
 
-@if (ShowHeader)
-{
-<header class='absolute left-0 top-0 z-10 w-full'>
+<header class='absolute left-0 top-0 z-10 w-full bg-[#7cb69d]'>
     <nav class="flex items-center justify-between py-3 px-4 sm:px-10 w-full">
         <div class="w-full flex justify-start sm:ml-[150px] md:justify-center">
             <div class="">
@@ -35,7 +31,7 @@
         <partial name="_LoginPartial" />
     </nav>
 </header>
-}
+
     <div class="">
         <main role="main" >
             @RenderBody()
