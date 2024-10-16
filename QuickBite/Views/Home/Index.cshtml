@@ -1,8 +1,164 @@
-﻿@{
+﻿@using QuickBite.Controllers
+@model IEnumerable<QuickBite.Controllers.HomeController.ExampleModel>
+@{
     ViewData["Title"] = "Home Page";
 }
+@section scripts{
+    <script>
+        console.log("Hello")
+    </script>
+}
 
-<div class="text-center">
-    <h1 class="text-4xl text-red-500">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @* @foreach (var item in Model)
+    {
+        <div>
+            <h1>@item.title</h1>
+            <p>@item.desc</p>
+        </div>
+*@
+<div class='relative w-full h-full'>
+    <div class="relative w-full h-screen flex items-center justify-center">
+        <img src="~/img/homePageImg.png" alt="homepage image"  class='w-full h-full object-cover'/>
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-5">
+            <div class="w-full md:w-[600px]">
+                <h2 class="font-bold text-white text-[40px] text-center">Discover Restaurants and More Near You.</h2>
+            </div>
+
+            <div class="px-4">
+                <div class="relative">
+                    <img src="~/icons/location.svg" alt="location pinpoint" class='w-5 h-5 sm:w-10 sm:h-10 absolute top-1/2 left-3 transform -translate-y-1/2 svg-orange'/>
+                    <input type="text" class="w-[350px] sm:w-[400px] md:w-[600px] py-5 pl-12 sm:pl-14 pr-12 rounded-full text-lg focus:outline-none" placeholder='Enter your address'/>
+                    <button class='absolute top-1/2 right-3 transform -translate-y-1/2 flex justify-center items-center p-2 rounded-full bg-orange'>
+                        <img src="~/icons/arrow-right.svg" alt="arrow right" class='w-8 h-8 svg-orange'/>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white py-1 px-4 rounded-full w-[110px] duration-300 transition-all hover:opacity-60">
+                <a class="flex items-center justify-center gap-2" asp-area="Identity" asp-page="/Account/Login">
+                    <img src="~/icons/person.svg" alt="person icon" width={15} height={15} class='svg-orange'/>
+                    <span>Sign In</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="w-full bg-[#FFF6E5] py-16">
+        <h2 class="text-center font-bold text-4xl mb-10">Why Quickbite?</h2>
+        <div class="flex justify-center gap-10 px-6">
+
+            <div class="flex flex-col items-center border border-[#C3C3C3] rounded-[15px] p-6 w-[250px]">
+                <img src="~/icons/location.svg" alt="location icon" width={50} height={50} class='svg-orange' />
+                <h3 class="font-bold text-center mt-4 mb-2">More Choice</h3>
+                <p class="text-left">We have thousands of partners including local favorites that don't normally deliver. Discover what's new near you.</p>
+            </div>
+
+            <div class="rounded-[15px] flex flex-col items-center border border-[#C3C3C3] p-6 w-[250px]">
+                <img src="~/icons/time.svg" alt="time icon" width={50} height={50} class='svg-orange'/>
+                <h3 class="font-bold text-center mt-4 mb-2">Fast Delivery</h3>
+                <p class="text-left">Enjoy the convenience of faster delivery, straight from the restaurant to your door, without compromising quality.</p>
+            </div>
+
+            <div class="flex flex-col items-center border border-[#C3C3C3] rounded-[15px] p-6 w-[250px]">
+                <img src="~/icons/car.svg" alt="car icon" width={50} height={50} class='svg-orange'/>
+                <h3 class="font-bold text-center mt-4 mb-2">Reliable Service</h3>
+                <p class="text-left">Our service is trusted by thousands of customers, offering reliability and timely delivery with every order.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full py-16 flex justify-between items-center px-10 md:px-24 relative">
+        <div class="flex-1 pr-8">
+            <h2 class="text-4xl font-bold mb-4">Everything you crave, delivered.</h2>
+            <p class="text-lg mb-6 text-left">
+                Explore a wide range of dishes and cuisine types that can satisfy your cravings from the comfort of your home. Browse the best restaurants near you, whether you're in the mood for pizza, sushi, or something else!
+            </p>
+            <button class="bg-orange text-white px-6 py-3 rounded-full hover:bg-orange-500 transition">
+                Find Restaurant
+            </button>
+        </div>
+        <div class="flex-1 relative z-10">
+            <img
+                src="~/img/familyPhoto.png"
+                alt="Family enjoying meal"
+                width={600}
+                height={500}
+                class="w-full h-auto object-cover"
+            />
+        </div>
+    </div>
+    
+    <div class="w-full bg-[#FFEDCD] py-24 relative">
+        <div class="absolute top-[-100px] left-0 right-0 h-[100px] bg-[#FFEDCD] z-0"></div>
+
+        <div class="flex justify-between items-center px-10 md:px-24">
+            <div class="flex-1 relative z-10">
+                <img
+                    src="~/img/deliveryPhoto.png"
+                    alt="Delivery person"
+                    width={600}
+                    height={500}
+                    class="w-full h-auto object-cover"
+                />
+            </div>
+            <div class="flex-1 pl-8">
+                <h2 class="text-4xl font-bold mb-4">Get your favorite food even faster</h2>
+                <p class="text-lg mb-6 text-left">
+                    With QuickPass, you can enjoy priority delivery from top restaurants, exclusive discounts, and much more. Skip the line and get your food delivered faster than ever before.
+                </p>
+                <button class="bg-orange text-[#4A4A4A] px-6 py-3 rounded-full hover:bg-orange-500 transition font-semibold">
+                    Get QuickPass
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="w-full bg-[#FFF6E5] py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-center font-bold text-4xl mb-10">Now Serving</h2>
+           @*<div class="flex flex-wrap justify-center gap-4">
+                
+            </div>*@
+            @*{activeProvince && (
+            <div class="mt-8 grid grid-cols-5 gap-4 text-center">
+                {cities[activeProvince].map((city) => (
+                <div key={city} class="p-2 rounded-lg">
+                    {city}
+                </div>
+                ))}
+            </div>
+            )}*@
+        </div>
+    </div>
+    
+    <div class="w-full bg-[#FFF6E5] py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-center font-bold text-4xl mb-10">FAQ</h2>
+            @*<div class="space-y-4">
+                {faqItems.map((item, index) => (
+                <div
+                    key={index}
+                    class="bg-[#FFEDCD] rounded-lg overflow-hidden"
+                >
+                    <button
+                        class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center"
+                        onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                    >
+                    {item.question}
+                    <span class="text-2xl">
+                    {expandedFaq === index ? '-' : '+'}
+                  </span>
+                    </button>
+                    {expandedFaq === index && (
+                    <div class="px-6 pb-4">
+                        <p>{item.answer}</p>
+                    </div>
+                    )}
+                </div>
+                ))}
+            </div>*@
+        </div>
+    </div>
 </div>
+
