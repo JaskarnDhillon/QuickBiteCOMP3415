@@ -81,6 +81,8 @@
     <Compile Remove="Views\Shared\_ExamplePartial.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Restaurant\Data\" />
+    <Folder Include="Areas\Restaurant\Models\" />
     <Folder Include="wwwroot\icons\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
