@@ -10,8 +10,8 @@ public class Product
     [DisplayFormat(DataFormatString = "{0:c}")]
     public decimal Price { get; set; }
         
-    public Guid CategoryId { get; set; }
-    public Guid RestaurantId { get; set; }
+    public Guid? CategoryId { get; set; }
+    public Guid RestaurantId { get; set; } 
     public string? Description { get; set; }
 
     public string? Photo { get; set; }

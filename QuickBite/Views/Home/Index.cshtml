@@ -2,6 +2,7 @@
 @model IEnumerable<QuickBite.Controllers.HomeController.ExampleModel>
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
 @section scripts{
     <script>
@@ -18,7 +19,7 @@
         </div>
 *@
 <div class='relative w-full h-full'>
-    <div class="relative w-full h-screen flex items-center justify-center">
+    <div class="relative w-full h-screen flex items-center justify-center ">
         <img src="~/img/homePageImg.png" alt="homepage image"  class='w-full h-full object-cover'/>
         <div class="absolute inset-0 flex flex-col items-center justify-center gap-5">
             <div class="w-full md:w-[600px]">

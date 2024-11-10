@@ -2,7 +2,13 @@
 @model ConfirmEmailModel
 @{
     ViewData["Title"] = "Confirm email";
+    Layout = "_EmailConfirmLayout";
 }
 
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<div class="h-screen text-center flex flex-col justify-center items-center">
+    <img src="~/img/emailConfirmed.png" class="w-64"/>
+    <partial name="_StatusMessage" model="Model.StatusMessage"/>
+    <span class="flex items-center text-sm pt-4">Go Back To <a asp-page="/" class="ml-1 text-amber-500">Homepage</a></span>
+
+</div>
+

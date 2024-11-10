@@ -1,0 +1,48 @@
+﻿@model QuickBite.Models.Product
+
+@{
+    ViewData["Title"] = "Menu Item Details";
+}
+
+<h1 class="text-2xl font-bold text-center mb-6">@ViewData["Title"]</h1>
+
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h4 class="text-xl font-semibold mb-4">Menu Item Details</h4>
+    <hr class="mb-4" />
+
+    <div class="space-y-4">
+        <!-- Name -->
+        <div class="flex">
+            <dt class="w-1/4 font-medium text-gray-700">Name</dt>
+            <dd class="w-3/4 text-gray-900">@Html.DisplayFor(model => model.Name)</dd>
+        </div>
+
+        <!-- Price -->
+        <div class="flex">
+            <dt class="w-1/4 font-medium text-gray-700">Price</dt>
+            <dd class="w-3/4 text-gray-900">@Html.DisplayFor(model => model.Price)</dd>
+        </div>
+
+        <!-- Description -->
+        <div class="flex">
+            <dt class="w-1/4 font-medium text-gray-700">Description</dt>
+            <dd class="w-3/4 text-gray-900">@Html.DisplayFor(model => model.Description)</dd>
+        </div>
+
+        <!-- Category -->
+        <div class="flex">
+            <dt class="w-1/4 font-medium text-gray-700">Category</dt>
+            <dd class="w-3/4 text-gray-900">@Html.DisplayFor(model => model.Category.Name)</dd>
+        </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-6 flex justify-end space-x-4">
+        <a asp-action="Edit" asp-route-id="@Model?.ProductId" class="px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            Edit
+        </a>
+        <a asp-action="Index" class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500">
+            Back to List
+        </a>
+    </div>
+</div>
