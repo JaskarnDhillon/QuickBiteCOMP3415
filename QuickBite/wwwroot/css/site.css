@@ -882,3 +882,11 @@ html {
   color: #fff;
 }
 
+.dashboard_sidebar{
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+

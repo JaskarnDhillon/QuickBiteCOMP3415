@@ -1,0 +1,81 @@
+
+@{
+    
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QuickBite</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/QuickBite.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="flex">
+<div class="dashboard_sidebar">
+    <div>
+        <a asp-page="/" class="flex items-center">
+            <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
+            <div class="flex items-center text-[25px]">
+                <h1 class="font-bold text-block">Quick</h1>
+                <span class="text-orange font-bold">Bite</span>
+            </div>
+        </a>
+    </div>
+    <div>
+        <a asp-page="/" class="flex items-center">
+            <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
+            <div class="text-[25px]">
+                <span class="text-orange font-bold">Home</span>
+            </div>
+        </a>
+    </div>
+    <div>
+        <a asp-page="/" class="flex items-center">
+            <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
+            <div class="text-[25px]">
+                <span class="text-orange font-bold">Orders</span>
+            </div>
+        </a>
+    </div>
+    <div>
+        <a asp-page="/" class="flex items-center">
+            <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
+            <div class="text-[25px]">
+                <span class="text-orange font-bold">Offers</span>
+            </div>
+        </a>
+    </div>
+    <div>
+        <a asp-page="/" class="flex items-center">
+            <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
+            <div class="text-[25px]">
+                <span class="text-orange font-bold">Favourites</span>
+            </div>
+        </a>
+    </div>
+    <div>
+        <a asp-page="/" class="flex items-center">
+            <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
+            <div class="text-[25px]">
+                <span class="text-orange font-bold">Settings</span>
+            </div>
+        </a>
+    </div>
+</div>
+<div class="">
+    <main role="main" >
+        @RenderBody()
+    </main>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
