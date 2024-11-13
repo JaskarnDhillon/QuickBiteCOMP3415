@@ -19,14 +19,42 @@ namespace QuickBite.Controllers
             return View();
             
         }
-        
+        [Route("/orders")]
+        public IActionResult Orders()
+        {
+
+            return View();
+
+        }
+        [Route("/offers")]
+        public IActionResult Offers()
+        {
+
+            return View();
+
+        }
+        [Route("/favourites")]
+        public IActionResult Favourites()
+        {
+
+            return View();
+
+        }
+        [Route("/settings")]
+        public IActionResult Settings()
+        {
+
+            return View();
+
+        }
+
         /*[Route("/about")]
         public IActionResult About()
         {
             return View();
         }*/
-        
-        
+
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

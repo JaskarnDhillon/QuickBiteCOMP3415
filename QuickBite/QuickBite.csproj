@@ -81,7 +81,6 @@
     <Compile Remove="Views\Shared\_ExamplePartial.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\icons\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
