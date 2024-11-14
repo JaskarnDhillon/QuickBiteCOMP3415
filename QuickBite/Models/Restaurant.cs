@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace QuickBite.Models;
 
 public class Restaurant
@@ -21,6 +24,12 @@ public class Restaurant
     public DateTime CloseingHour {get;set;}
 
     public bool isAccepted { get; set; }
+
+
+    public string? RestaurantOwenrId  { get; set; }
+
+    [ForeignKey(nameof(RestaurantOwenrId))]
+    public ApplicationUser? RestaurantOwner  { get; set; }
 
 
     public List<Product>? Products { get; set; }
