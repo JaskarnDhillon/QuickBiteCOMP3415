@@ -123,6 +123,8 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
             {
                 try
                 {
+                    restaurant.OpeningHour = restaurant.OpeningHour.ToUniversalTime();
+                    restaurant.CloseingHour = restaurant.CloseingHour.ToUniversalTime();
                     _context.Update(restaurant);
                     await _context.SaveChangesAsync();
                 }

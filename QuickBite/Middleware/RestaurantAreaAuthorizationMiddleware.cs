@@ -1,3 +1,5 @@
+using QuickBite.Data;
+
 namespace QuickBite.Middleware;
 
 using Microsoft.AspNetCore.Http;
@@ -12,22 +14,33 @@ public class RestaurantAreaAuthorizationMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, IServiceScopeFactory serviceScopeFactory)
     {
-        // Check if the request is for the "Restaurant" area
         var endpoint = context.GetEndpoint();
         if (endpoint != null && endpoint.Metadata.GetMetadata<Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor>()?.RouteValues["area"] == "Restaurant")
         {
-            // Check if the "RestaurantId" session variable is set
-            if (string.IsNullOrEmpty(context.Session.GetString("RestaurantId")))
+            using (var scope = serviceScopeFactory.CreateScope())
             {
-                // Redirect to the Unauthorized page if the session variable is missing
-                context.Response.Redirect("/Home/Unauthorized");
-                return;
+                var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+                // Check if the session variable "RestaurantId" exists
+                if (string.IsNullOrEmpty(context.Session.GetString("RestaurantId")))
+                {
+                    context.Response.Redirect("/Home/Unauthorized");
+                    return;
+                }
+                
+                var restaurantId = Guid.Parse(context.Session.GetString("RestaurantId"));
+                var restaurant = await dbContext.Restaurant.FindAsync(restaurantId);
+                if (!restaurant.isAccepted)
+                {
+                    context.Response.Redirect("/Home/Unauthorized");
+                    return;
+                }
             }
         }
 
-        // Call the next middleware in the pipeline
+        // Proceed to the next middleware
         await _next(context);
     }
 }
