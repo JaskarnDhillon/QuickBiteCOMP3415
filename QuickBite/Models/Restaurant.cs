@@ -6,7 +6,23 @@ public class Restaurant
     public string Name { get; set; }
     public string? Description { get; set; }
     public string? Photo { get; set; }
-    
+
+    // Address information
+    public string? Address { get; set; }
+
+    // Latitude and Longitude for geolocation
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
+
+    public int DeliveryRadius { get; set; }
+
+    public DateTime OpeningHour {get;set;}
+
+    public DateTime CloseingHour {get;set;}
+
+    public bool isAccepted { get; set; }
+
+
     public List<Product>? Products { get; set; }
     
 }
