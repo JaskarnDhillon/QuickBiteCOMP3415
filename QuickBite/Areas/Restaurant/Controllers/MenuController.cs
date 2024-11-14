@@ -68,7 +68,7 @@ namespace QuickBite.Areas.Restaurant.Controllers
                     var fileName = UploadPhoto(Photo);
                     product.Photo = fileName;
                 }
-
+                product.Restaurant = _context.Restaurant.FirstOrDefault(); // IMPORTANT THIS IS TEMPORARY WE CHANGE THIS UPON RESTAURANT REGISTRATION
                 product.ProductId = Guid.NewGuid(); // Assign a new GUID
                 _context.Add(product);
                 await _context.SaveChangesAsync();

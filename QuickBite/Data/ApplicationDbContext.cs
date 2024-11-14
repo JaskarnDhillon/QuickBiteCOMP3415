@@ -15,5 +15,6 @@ namespace QuickBite.Data
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
+        public DbSet<QuickBite.Models.Restaurant> Restaurant { get; set; } = default!;
     }
 }
