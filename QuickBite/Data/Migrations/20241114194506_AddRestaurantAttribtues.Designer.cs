@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using QuickBite.Data;
@@ -11,9 +12,11 @@ using QuickBite.Data;
 namespace QuickBite.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241114194506_AddRestaurantAttribtues")]
+    partial class AddRestaurantAttribtues
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,11 +88,6 @@ namespace QuickBite.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("character varying(21)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -140,10 +138,6 @@ namespace QuickBite.Data.Migrations
                         .HasDatabaseName("UserNameIndex");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator().HasValue("IdentityUser");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -422,28 +416,12 @@ namespace QuickBite.Data.Migrations
                     b.Property<string>("Photo")
                         .HasColumnType("text");
 
-                    b.Property<string>("RestaurantOwenrId")
-                        .HasColumnType("text");
-
                     b.Property<bool>("isAccepted")
                         .HasColumnType("boolean");
 
                     b.HasKey("RestaurantId");
 
-                    b.HasIndex("RestaurantOwenrId")
-                        .IsUnique();
-
                     b.ToTable("Restaurant");
-                });
-
-            modelBuilder.Entity("QuickBite.Models.ApplicationUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<Guid?>("RestaurantId")
-                        .HasColumnType("uuid");
-
-                    b.HasDiscriminator().HasValue("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -544,15 +522,6 @@ namespace QuickBite.Data.Migrations
                     b.Navigation("Restaurant");
                 });
 
-            modelBuilder.Entity("QuickBite.Models.Restaurant", b =>
-                {
-                    b.HasOne("QuickBite.Models.ApplicationUser", "RestaurantOwner")
-                        .WithOne("Restaurant")
-                        .HasForeignKey("QuickBite.Models.Restaurant", "RestaurantOwenrId");
-
-                    b.Navigation("RestaurantOwner");
-                });
-
             modelBuilder.Entity("QuickBite.Models.Category", b =>
                 {
                     b.Navigation("Products");
@@ -573,11 +542,6 @@ namespace QuickBite.Data.Migrations
             modelBuilder.Entity("QuickBite.Models.Restaurant", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("QuickBite.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Restaurant");
                 });
 #pragma warning restore 612, 618
         }

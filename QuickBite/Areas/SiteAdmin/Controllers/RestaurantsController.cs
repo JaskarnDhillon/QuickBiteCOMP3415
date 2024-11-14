@@ -60,6 +60,7 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
             if (ModelState.IsValid)
             {
                 restaurant.RestaurantId = Guid.NewGuid();
+                restaurant.isAccepted = true;
                 _context.Add(restaurant);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
