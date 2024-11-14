@@ -66,7 +66,24 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
             return View(restaurant);
         }
 
-        // GET: SiteAdmin/Restaurants/Edit/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null || _context.Products == null)
+            {
+                return NotFound();
+            }
+
+            var product = await _context.Restaurant
+                .FirstOrDefaultAsync(m => m.RestaurantId == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(product);
+        }
+
+
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -79,15 +96,23 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
             {
                 return NotFound();
             }
+
+            // Populate RestaurantOwners for dropdown
+            ViewBag.RestaurantOwners = _context.Users
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = $"{u.FirstName} {u.LastName}"
+                })
+                .ToList();
+
             return View(restaurant);
         }
 
         // POST: SiteAdmin/Restaurants/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("RestaurantId,Name,Description,Photo")] QuickBite.Models.Restaurant restaurant)
+        public async Task<IActionResult> Edit(Guid id, [Bind("RestaurantId,Name,Description,Photo,Address,Latitude,Longitude,DeliveryRadius,OpeningHour,CloseingHour,isAccepted,RestaurantOwenrId")] QuickBite.Models.Restaurant restaurant)
         {
             if (id != restaurant.RestaurantId)
             {
@@ -114,9 +139,18 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // Repopulate RestaurantOwners for dropdown in case of errors
+            ViewBag.RestaurantOwners = _context.Users
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = $"{u.FirstName} {u.LastName}"
+                })
+                .ToList();
+
             return View(restaurant);
         }
-
         // GET: SiteAdmin/Restaurants/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
