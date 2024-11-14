@@ -20,42 +20,30 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
             _context = context;
         }
 
-        // GET: SiteAdmin/Restaurants
         public async Task<IActionResult> Index()
         {
             return View(await _context.Restaurant.ToListAsync());
         }
 
-        // GET: SiteAdmin/Restaurants/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var restaurant = await _context.Restaurant
-                .FirstOrDefaultAsync(m => m.RestaurantId == id);
-            if (restaurant == null)
-            {
-                return NotFound();
-            }
-
-            return View(restaurant);
-        }
-
         // GET: SiteAdmin/Restaurants/Create
         public IActionResult Create()
         {
+            // Populate a dropdown with users
+            ViewData["RestaurantOwners"] = _context.Users
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = $"{u.FirstName} {u.LastName}" // Combine first and last name
+                })
+                .ToList();
+
             return View();
         }
 
         // POST: SiteAdmin/Restaurants/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("RestaurantId,Name,Description,Photo")] QuickBite.Models.Restaurant restaurant)
+        public async Task<IActionResult> Create([Bind("RestaurantId,Name,Description,Photo,RestaurantOwenrId")] QuickBite.Models.Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +53,16 @@ namespace QuickBite.Areas.SiteAdmin.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
+            // Re-populate dropdown in case of errors
+            ViewData["RestaurantOwners"] = _context.Users
+                .Select(u => new SelectListItem
+                {
+                    Value = u.Id,
+                    Text = $"{u.FirstName} {u.LastName}"
+                })
+                .ToList();
+
             return View(restaurant);
         }
 
