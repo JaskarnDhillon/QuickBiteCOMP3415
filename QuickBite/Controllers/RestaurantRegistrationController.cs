@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using QuickBite.Data;
@@ -5,6 +6,7 @@ using QuickBite.Models;
 
 namespace QuickBite.Controllers;
 
+[Authorize]
 public class RestaurantRegistrationController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -45,11 +47,19 @@ public class RestaurantRegistrationController : Controller
         restaurant.RestaurantOwner = applicationUser;
         restaurant.RestaurantOwenrId = applicationUser.Id;
         restaurant.isAccepted = false;
+        restaurant.OpeningHour = restaurant.OpeningHour.ToUniversalTime();
+        restaurant.CloseingHour = restaurant.CloseingHour.ToUniversalTime();
         
         _context.Restaurant.Add(restaurant);
         await _context.SaveChangesAsync();
         
+        applicationUser.RestaurantId = restaurant.RestaurantId;
+
+        await _userManager.UpdateAsync(applicationUser);
+
+        HttpContext.Session.SetString("RestaurantId", restaurant.RestaurantId.ToString());
+        HttpContext.Session.SetString("RestaurantName", restaurant.Name);
         
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction("Index", "Home", new {area = "Restaurant"});
     }
 }

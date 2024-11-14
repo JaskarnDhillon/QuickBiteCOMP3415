@@ -24,8 +24,11 @@ namespace QuickBite.Areas.Restaurant.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            var restaurantId = Guid.Parse(HttpContext.Session.GetString("RestaurantId"));
+            
+            var products = _context.Products.Include(p => p.Category)
+                .Where(r => r.RestaurantId == restaurantId);
+            return View(await products.ToListAsync());
         }
 
         [AllowAnonymous]
@@ -68,7 +71,7 @@ namespace QuickBite.Areas.Restaurant.Controllers
                     var fileName = UploadPhoto(Photo);
                     product.Photo = fileName;
                 }
-                product.Restaurant = _context.Restaurant.FirstOrDefault(); // IMPORTANT THIS IS TEMPORARY WE CHANGE THIS UPON RESTAURANT REGISTRATION
+                product.Restaurant = await _context.Restaurant.FindAsync(Guid.Parse(HttpContext.Session.GetString("RestaurantId")));
                 product.ProductId = Guid.NewGuid(); // Assign a new GUID
                 _context.Add(product);
                 await _context.SaveChangesAsync();

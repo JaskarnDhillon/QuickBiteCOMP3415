@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuickBite.Data;
 using QuickBite.Models;
+using QuickBite.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,13 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set timeout period for the session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true; // Make session cookies essential
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +53,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseSession();
+
+app.UseMiddleware<RestaurantAreaAuthorizationMiddleware>();
 
 app.UseRouting();
 

@@ -115,7 +115,17 @@ namespace QuickBite.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = _signInManager.UserManager.FindByEmailAsync(Input.Email).Result;
+      
+                    if (user.RestaurantId != null)
+                    {
+                        HttpContext.Session.SetString("RestaurantId", user.RestaurantId.ToString());
+                        
+                        return RedirectToAction("Index", "Home", new {area = "Restaurant"});
+                    }
+                    
                     _logger.LogInformation("User logged in.");
+                    
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
