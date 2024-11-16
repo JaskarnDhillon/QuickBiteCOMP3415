@@ -114,52 +114,138 @@
             </div>
         </div>
     </div>
-    
+
+    @{
+        var provinces = new List<string>
+    {
+    "Alberta", "British Columbia", "Manitoba", "New Brunswick",
+    "Newfoundland and Labrador", "Northwest Territories", "Nova Scotia",
+    "Nunavut", "Ontario", "Prince Edward Island", "Quebec", "Saskatchewan",
+    "Yukon"
+    };
+
+        var cities = new Dictionary<string, List<string>>
+    {
+    { "Alberta", new List<string> { "Calgary", "Edmonton", "Lethbridge", "Medicine Hat", "Red Deer", "Fort McMurray", "Grande Prairie", "Airdrie" }},
+    { "British Columbia", new List<string> { "Vancouver", "Victoria", "Kelowna", "Abbotsford", "Kamloops", "Surrey", "Richmond", "Burnaby", "Nanaimo", "Prince George" }},
+    { "Manitoba", new List<string> { "Winnipeg", "Brandon", "Portage la Prairie", "Thompson", "Steinbach", "Selkirk", "Dauphin", "Morden" }},
+    { "New Brunswick", new List<string> { "Moncton", "Saint John", "Fredericton", "Dieppe", "Bathurst", "Miramichi", "Edmundston", "Campbellton" }},
+    { "Newfoundland and Labrador", new List<string> { "St. John's", "Corner Brook", "Labrador City", "Happy Valley-Goose Bay", "Gander", "Mount Pearl", "Stephenville", "Marystown" }},
+    { "Northwest Territories", new List<string> { "Yellowknife", "Hay River", "Inuvik", "Fort Smith", "Cambridge Bay", "Norman Wells", "Tuktoyaktuk" }},
+    { "Nova Scotia", new List<string> { "Halifax", "Sydney", "Dartmouth", "New Glasgow", "Truro", "Amherst", "Bridgewater", "Yarmouth" }},
+    { "Nunavut", new List<string> { "Iqaluit", "Rankin Inlet", "Cambridge Bay", "Arviat", "Baker Lake", "Igloolik", "Pangnirtung" }},
+    { "Ontario", new List<string> { "Toronto", "Ottawa", "Hamilton", "Mississauga", "Brampton", "Barrie", "Whitby", "London", "Kitchener", "Windsor", "Thunder Bay", "Kingston" }},
+    { "Prince Edward Island", new List<string> { "Charlottetown", "Summerside", "Stratford", "Cornwall", "Montague", "Alberton", "Kensington" }},
+    { "Quebec", new List<string> { "Montreal", "Quebec City", "Laval", "Gatineau", "Sherbrooke", "Trois-Rivières", "Saguenay", "Drummondville", "Rimouski" }},
+    { "Saskatchewan", new List<string> { "Saskatoon", "Regina", "Moose Jaw", "Prince Albert", "Swift Current", "Yorkton", "North Battleford" }},
+    { "Yukon", new List<string> { "Whitehorse", "Dawson City", "Watson Lake", "Haines Junction", "Carmacks", "Faro", "Teslin" }}
+    };
+    }
+
     <div class="w-full bg-[#FFF6E5] py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="text-center font-bold text-4xl mb-10">Now Serving</h2>
-           @*<div class="flex flex-wrap justify-center gap-4">
-                
-            </div>*@
-            @*{activeProvince && (
-            <div class="mt-8 grid grid-cols-5 gap-4 text-center">
-                {cities[activeProvince].map((city) => (
-                <div key={city} class="p-2 rounded-lg">
-                    {city}
-                </div>
-                ))}
-            </div>
-            )}*@
+    <div class="container mx-auto px-4">
+        <h2 class="text-center font-bold text-4xl mb-10">Now Serving</h2>
+
+        <div class="flex flex-wrap justify-center gap-4">
+            @foreach (var province in provinces)
+            {
+                <button class="province-button rounded-full px-12 py-3 duration-300 transition-colors bg-[#FFE6DE] text-[#4A4A4A]"
+                        onclick="selectProvince('@province')">
+                    @province
+                </button>
+            }
         </div>
-    </div>
-    
-    <div class="w-full bg-[#FFF6E5] py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="text-center font-bold text-4xl mb-10">FAQ</h2>
-            @*<div class="space-y-4">
-                {faqItems.map((item, index) => (
-                <div
-                    key={index}
-                    class="bg-[#FFEDCD] rounded-lg overflow-hidden"
-                >
-                    <button
-                        class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center"
-                        onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
-                    >
-                    {item.question}
-                    <span class="text-2xl">
-                    {expandedFaq === index ? '-' : '+'}
-                  </span>
-                    </button>
-                    {expandedFaq === index && (
-                    <div class="px-6 pb-4">
-                        <p>{item.answer}</p>
-                    </div>
-                    )}
+
+        <div id="cities-container" class="mt-8 grid grid-cols-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 text-center hidden">
+            @foreach (var province in cities.Keys)
+            {
+                <div data-province="@province" class="city-list hidden">
+                    @foreach (var city in cities[province])
+                    {
+                            <div class="p-2 rounded-lg bg-[#FFF6E5] shadow-sm">
+                            @city
+                        </div>
+                    }
                 </div>
-                ))}
-            </div>*@
+            }
         </div>
     </div>
 </div>
+
+<script>
+    function selectProvince(province) {
+        document.querySelectorAll('.province-button').forEach(button => {
+            button.classList.remove('bg-[#FE7048]', 'text-white');
+            button.classList.add('bg-[#FFE6DE]', 'text-[#4A4A4A]');
+        });
+
+        const selectedButton = Array.from(document.querySelectorAll('.province-button')).find(button => button.textContent.trim() === province);
+        if (selectedButton) {
+            selectedButton.classList.add('bg-[#FE7048]', 'text-white');
+            selectedButton.classList.remove('bg-[#FFE6DE]', 'text-[#4A4A4A]');
+        }
+
+        document.querySelectorAll('.city-list').forEach(list => list.classList.add('hidden'));
+        const selectedCityList = document.querySelector(`.city-list[data-province="${province}"]`);
+        if (selectedCityList) {
+            selectedCityList.classList.remove('hidden');
+            document.getElementById('cities-container').classList.remove('hidden');
+        }
+    }
+</script>
+
+    <div class="w-full bg-[#FFF6E5] py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-center font-bold text-4xl mb-10">FAQ</h2>
+            <div class="space-y-4">
+                <div class="bg-[#FFEDCD] rounded-lg overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" onclick="toggleFaq(this)">
+                        How does QuickBite work?
+                        <span class="text-2xl">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p>QuickBite connects you with a wide array of local restaurants. Simply enter your address, choose a restaurant, select your meals, and place your order. A nearby delivery partner will bring your food right to your doorstep.</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#FFEDCD] rounded-lg overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" onclick="toggleFaq(this)">
+                        What are the delivery fees?
+                        <span class="text-2xl">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p>Delivery fees vary depending on your distance from the restaurant and other factors. The exact fee will be displayed before you complete your order. QuickPass members often enjoy reduced or waived delivery fees.</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#FFEDCD] rounded-lg overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" onclick="toggleFaq(this)">
+                        How long does delivery take?
+                        <span class="text-2xl">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p>Delivery times vary based on factors like distance, traffic, and restaurant preparation times. On average, orders are delivered within 30-45 minutes. You can track your order in real-time through our app.</p>
+                    </div>
+                </div>
+
+                <div class="bg-[#FFEDCD] rounded-lg overflow-hidden">
+                    <button class="w-full px-6 py-4 text-left font-semibold flex justify-between items-center" onclick="toggleFaq(this)">
+                        What if there's an issue with my order?
+                        <span class="text-2xl">+</span>
+                    </button>
+                    <div class="faq-answer hidden px-6 pb-4">
+                        <p>If you encounter any problems with your order, please contact our customer support team through the app or website. We're here to help and will work to resolve any issues as quickly as possible.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(button) {
+            const answerDiv = button.nextElementSibling;
+            answerDiv.classList.toggle("hidden");
+            button.querySelector("span").textContent = answerDiv.classList.contains("hidden") ? "+" : "-";
+        }
+    </script>
 

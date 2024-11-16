@@ -1,1 +1,117 @@
-About
+@{
+    ViewData["Title"] = "About";
+    Layout = "_Layout";
+}
+
+<div class="relative w-full h-screen bg-[#7CB69D] flex flex-col items-center justify-center">
+    <h1 class="text-4xl text-white text-[80px] font-bold text-center mb-10 mt-0" style="margin-top: -50px;">How QuickBite Works</h1>
+    <p class="text-lg text-white font-medium text-center mb-8" style="margin-top: 10px;">QuickBite is the easiest way to get food you love delivered right to your doorstep</p>
+
+    <div class="absolute bottom-[-30%] flex justify-center w-full">
+        <img src="~/img/AbFood.png" alt="Food plate" class="w-[35%] h-auto rounded-full" />
+    </div>
+</div>
+
+<div class="w-full bg-[#FFF6E5] pt-[250px] pb-16 px-8">
+    <div class="container mx-auto">
+        <h2 class="text-left text-black text-5xl font-semibold mb-8 ml-2">How to Navigate the QuickBite Website</h2>
+
+        <div class="flex flex-wrap justify-center gap-20">
+            <div class="flex flex-col items-start p-4 w-[400px]">
+                <img src="~/img/AbFood1.jpg" alt="Food Image 1" class="w-full h-auto mb-4" />
+                <h3 class="text-xl font-bold text-black mb-2">Browse</h3>
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+
+            <div class="flex flex-col items-start p-4 w-[400px]">
+                <img src="~/img/AbFood2.jpg" alt="Food Image 2" class="w-full h-auto mb-4" />
+                <h3 class="text-xl font-bold text-black mb-2">Order</h3>
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+
+            <div class="flex flex-col items-start p-4 w-[400px]">
+                <img src="~/img/AbUber.jpg" alt="Food Image 3" class="w-full h-auto mb-4" />
+                <h3 class="text-xl font-bold text-black mb-2">Track</h3>
+                <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="w-full bg-[#FFEDCD] py-16 px-8">
+    <div class="container mx-auto text-center">
+        <h2 class="text-5xl font-bold text-black mb-12">Who We Are</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="flex flex-col items-center p-4">
+                <img src="~/img/OL.jpg" alt="Omid Latifi" class="w-[200px] h-[200px] rounded-full mb-4 shadow-lg object-cover" />
+                <h3 class="text-2xl font-bold text-black mb-1">Omid Latifi</h3>
+                <p class="text-gray-600 text-sm">Front-End Developer</p>
+            </div>
+
+            <div class="flex flex-col items-center p-4">
+                <img src="~/img/KS.jpg" alt="Kalem Sdao" class="w-[200px] h-[200px] rounded-full mb-4 shadow-lg object-cover" />
+                <h3 class="text-2xl font-bold text-black mb-1">Kalem Sdao</h3>
+                <p class="text-gray-600 text-sm">Full-Stack Developer</p>
+            </div>
+
+            <div class="flex flex-col items-center p-4">
+                <img src="~/img/JD.jpg" alt="Jaskarn Dhillon" class="w-[200px] h-[200px] rounded-full mb-4 shadow-lg object-cover" />
+                <h3 class="text-2xl font-bold text-black mb-1">Jaskarn Dhillon</h3>
+                <p class="text-gray-600 text-sm">Project Manager</p>
+            </div>
+
+            <div class="flex flex-col items-center p-4">
+                <img src="~/img/BN.jpg" alt="Benjamin Noje" class="w-[200px] h-[200px] rounded-full mb-4 shadow-lg object-cover" />
+                <h3 class="text-2xl font-bold text-black mb-1">Benjamin Noje</h3>
+                <p class="text-gray-600 text-sm">UX/UI Designer</p>
+            </div>
+
+            <div class="flex flex-col items-center p-4">
+                <img src="~/img/FC.jpg" alt="Francesco Coniglione" class="w-[200px] h-[200px] rounded-full mb-4 shadow-lg object-cover" />
+                <h3 class="text-2xl font-bold text-black mb-1">Francesco Coniglione</h3>
+                <p class="text-gray-600 text-sm">Full-Stack Developer</p>
+            </div>
+
+            <div class="flex flex-col items-center p-4">
+                <img src="~/img/MQ.jpg" alt="Miran Qarachatani" class="w-[200px] h-[200px] rounded-full mb-4 shadow-lg object-cover" />
+                <h3 class="text-2xl font-bold text-black mb-1">Miran Qarachatani</h3>
+                <p class="text-gray-600 text-sm">Backend Developer</p>
+            </div>
+        </div>
+
+        <div class="mt-16 max-w-6xl mx-auto text-center">
+            <p class="text-2xl font-semibold text-gray-800 leading-relaxed">
+                At QuickBite, we are passionate about revolutionizing the food delivery experience.
+                Our mission is to bring delicious, fresh meals to your doorstep quickly and reliably, every time.
+                We care deeply about supporting local restaurants, improving convenience, and making sure every meal
+                brings joy to your dining experience. Join us in making food delivery better, one order at a time.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="w-full bg-[#FFF6E5] py-48 px-8 relative overflow-hidden">
+    <img src="~/img/shawarma.png" alt="Shawarma" class="absolute left-[-150px] top-1/2 transform -translate-y-1/2 scale-x-[-1] w-[500px] h-auto opacity-90" />
+
+    <img src="~/img/shawarma2.png" alt="Shawarma 1" class="absolute right-[-150px] top-1/2 transform -translate-y-1/2 w-[500px] h-auto opacity-90" />
+
+    <div class="container mx-auto text-center relative z-10">
+        <div class="flex items-center justify-center gap-10 mb-10">
+            <img src="~/icons/qbLogo.svg" alt="QuickBite Logo" width="100" height="100" />
+            <div class="flex items-center text-[50px]">
+                <h1 class="font-bold text-black">Quick</h1>
+                <span class="text-yellow font-bold">Bite</span>
+            </div>
+        </div>
+
+        <h2 class="text-4xl font-bold text-black mb-6">Ready to Order?</h2>
+        <p class="text-l text-gray-600 mb-12">Join thousands of satisfied customers and get your favorite meals delivered fresh and fast.</p>
+
+        <a href="/order" class="bg-yellow text-black text-l font-semibold py-4 px-10 rounded-full transition duration-300 hover:bg-[#e8e8e8]">
+            Get Started
+        </a>
+    </div>
+</div>
+
+
