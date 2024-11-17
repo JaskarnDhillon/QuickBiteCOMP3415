@@ -87,6 +87,7 @@
     <Folder Include="Areas\SiteAdmin\Data\" />
     <Folder Include="Areas\SiteAdmin\Models\" />
     <Folder Include="wwwroot\icons\" />
+
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
