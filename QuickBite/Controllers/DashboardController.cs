@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using QuickBite.Models;
 using System.Diagnostics;
+using QuickBite.Data;
 
 namespace QuickBite.Controllers
 {
     public class DashboardController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public DashboardController(ILogger<HomeController> logger)
+        public DashboardController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
+            _context = context;
             _logger = logger;
         }
         [Route("/dashboard")]
@@ -22,8 +25,9 @@ namespace QuickBite.Controllers
         [Route("/orders")]
         public IActionResult Orders()
         {
-
-            return View();
+            var restaurants = _context.Restaurant.ToList();
+            
+            return View(restaurants);
 
         }
         [Route("/offers")]

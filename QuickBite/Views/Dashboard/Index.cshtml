@@ -1,17 +1,9 @@
 @using QuickBite.Controllers
-@model IEnumerable<QuickBite.Models.Restaurant>
 @{
     ViewData["Title"] = "Dashboard";
-    Layout = "_UserLayout";
+    Layout = "_CustomerDashboardLayout";
 }
 
 <div class='relative w-full h-full'>
     <p>This is the user dashboard omggg!</p>
-    @foreach(var restaurant in Model)
-    {
-        <div>
-            <h1>@restaurant.Name</h1>
-            <p>@restaurant.Description</p>
-        </div>
-    }
 </div>
