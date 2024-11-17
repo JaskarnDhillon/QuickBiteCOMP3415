@@ -1,80 +1,70 @@
 @model QuickBite.Models.Restaurant
+
 @{
-    ViewData["Title"] = "Restaurant Registration";
-    Layout = "_Layout";
+ViewData["Title"] = "Restaurant Registration";
+Layout = "_Layout";
 }
 
 <style>
-    .register-form{
-        margin-top: 100px;
-        margin-left: 100px;
-        margin-right: 100px;
+    .register-form {
+        margin: 100px auto;
+        max-width: 600px;
         padding: 25px;
         border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    
 </style>
 
-@section Scripts
-{
-    <script>
-        
-    </script>
-}
+<section class="bg-white p-4">
+    <div class="register-form">
+        <h2 class="text-2xl font-bold mb-6 text-center">Register a New Restaurant</h2>
+        <form asp-action="Register" asp-controller="RestaurantRegistration" enctype="multipart/form-data" method="post">
+            <div class="mb-4">
+                <label asp-for="Name" class="block text-gray-700 font-medium">Name</label>
+                <input asp-for="Name" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required />
+                <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+            </div>
 
-<section class="bg-white p-1">
-    <div class="register-form bg-gray-100 shadow-md">
-        <div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
-            <form asp-action="Register" asp-controller="RestaurantRegistration" method="post" enctype="multipart/form-data">
-                <h2 class="text-2xl font-bold mb-6 text-center">Restaurant a New Restaurant</h2>
+            <div class="mb-4">
+                <label asp-for="Description" class="block text-gray-700 font-medium">Description</label>
+                <textarea asp-for="Description" rows="4" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"></textarea>
+                <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+            </div>
 
-                <div class="grid gap-6 items-center">
-                    <!-- Restaurant Name -->
-                    <label class="text-gray-700 font-medium" for="name">Name</label>
-                    <input asp-for="Name" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required>
-                    <span asp-validation-for="Name" class="text-red-500 text-sm"></span>
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium">Photo</label>
+                <input asp-for="Photo" type="file" name="photo" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                <span asp-validation-for="Photo" class="text-red-500 text-sm"></span>
+            </div>
 
-                    <!-- Description -->
-                    <label class="text-gray-700 font-medium" for="description">Description</label>
-                    <textarea asp-for="Description" rows="4" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"></textarea>
-                    <span asp-validation-for="Description" class="text-red-500 text-sm"></span>
+            <div class="mb-4">
+                <label asp-for="Address" class="block text-gray-700 font-medium">Address</label>
+                <input asp-for="Address" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" />
+                <span asp-validation-for="Address" class="text-red-500 text-sm"></span>
+            </div>
 
-                    <!-- Photo File Upload -->
-                    <label class="text-gray-700 font-medium" for="photo">Photo</label>
-                    <input asp-for="Photo" type="file" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
-                    <span asp-validation-for="Photo" class="text-red-500 text-sm"></span>
+            <div class="mb-4">
+                <label asp-for="DeliveryRadius" class="block text-gray-700 font-medium">Delivery Radius (in km)</label>
+                <input asp-for="DeliveryRadius" type="number" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required />
+                <span asp-validation-for="DeliveryRadius" class="text-red-500 text-sm"></span>
+            </div>
 
-                    <!-- Address -->
-                    <label class="text-gray-700 font-medium" for="address">Address</label>
-                    <input asp-for="Address" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300">
-                    <span asp-validation-for="Address" class="text-red-500 text-sm"></span>
-                    
-                    <input asp-for="Latitude" type="hidden">
-                    <input asp-for="Longitude" type="hidden">
-                    
-                    <!-- Delivery Radius -->
-                    <label class="text-gray-700 font-medium" for="deliveryRadius">Delivery Radius (in km)</label>
-                    <input asp-for="DeliveryRadius" type="number" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required>
-                    <span asp-validation-for="DeliveryRadius" class="text-red-500 text-sm"></span>
+            <div class="mb-4">
+                <label asp-for="OpeningHour" class="block text-gray-700 font-medium">Opening Hour</label>
+                <input asp-for="OpeningHour" type="time" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required />
+                <span asp-validation-for="OpeningHour" class="text-red-500 text-sm"></span>
+            </div>
 
-                    <!-- Opening Hour -->
-                    <label class="text-gray-700 font-medium" for="openingHour">Opening Hour</label>
-                    <input asp-for="OpeningHour" type="time" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required>
-                    <span asp-validation-for="OpeningHour" class="text-red-500 text-sm"></span>
+            <div class="mb-4">
+                <label asp-for="CloseingHour" class="block text-gray-700 font-medium">Closing Hour</label>
+                <input asp-for="CloseingHour" type="time" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required />
+                <span asp-validation-for="CloseingHour" class="text-red-500 text-sm"></span>
+            </div>
 
-                    <!-- Closing Hour -->
-                    <label class="text-gray-700 font-medium" for="closingHour">Closing Hour</label>
-                    <input asp-for="CloseingHour" type="time" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300" required>
-                    <span asp-validation-for="CloseingHour" class="text-red-500 text-sm"></span>
-                </div>
-                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring mt-6">Submit</button>
-            </form>
-        </div>
-
-
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring mt-4">
+                Submit
+            </button>
+        </form>
     </div>
 </section>
-
-
-
-
