@@ -1,0 +1,108 @@
+﻿@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - QuickBite Restaurant</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="bg-[#f8f5f0] font-sans">
+
+    <header class="bg-[#D97D54]  shadow-md">
+        <nav class="container mx-auto flex items-center justify-between py-4 px-6">
+            <!-- Logo -->
+            <a href="/Restaurant" class="flex items-center space-x-2">
+                <!-- <img src="~/icons/restaurantLogo.svg" alt="restaurant logo" class="w-12 h-12" /> -->
+                <span class="text-2xl font-extrabold tracking-wide hover:text-[#f4e1d2] transition-colors">
+                    QuickBite
+                </span>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <div class="hidden lg:flex items-center space-x-6">
+                <a href="@Url.Action("Index", "Home", new { area = "Restaurant" })"
+                   class="text-lg font-medium hover:text-[#FDE7D0] transition-colors duration-300">
+                    Home
+                </a>
+                <a href="@Url.Action("Index", "Menu", new { area = "Restaurant" })"
+                   class="text-lg font-medium hover:text-[#FDE7D0] transition-colors duration-300">
+                    Menu
+                </a>
+                <a href="@Url.Action("Index", "Reservation", new { area = "Restaurant" })"
+                   class="text-lg font-medium hover:text-[#FDE7D0] transition-colors duration-300">
+                    Reservations
+                </a>
+                <a href="@Url.Action("Index", "Orders", new { area = "Restaurant" })"
+                   class="text-lg font-medium hover:text-[#FDE7D0] transition-colors duration-300">
+                    Orders
+                </a>
+                <a href="@Url.Action("Index", "Settings", new { area = "Restaurant" })"
+                   class="text-lg font-medium hover:text-[#FDE7D0] transition-colors duration-300">
+                    Settings
+                </a>
+            </div>
+
+            <!-- User Account -->
+            <div class="flex items-center space-x-4">
+                <!-- Login Partial -->
+                <div>
+                    <partial name="_LoginPartial" />
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="lg:hidden text-white focus:outline-none focus:ring-2 focus:ring-white">
+                    <i class="fa fa-bars fa-lg"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Dropdown Menu -->
+        <div class="lg:hidden bg-[#D97D54] px-6 py-4">
+            <div class="space-y-4">
+                <a href="@Url.Action("Index", "Home", new { area = "Restaurant" })"
+                   class="block text-lg font-medium text-white hover:text-[#FDE7D0] transition-colors">
+                    Home
+                </a>
+                <a href="@Url.Action("Index", "Menu", new { area = "Restaurant" })"
+                   class="block text-lg font-medium text-white hover:text-[#FDE7D0] transition-colors">
+                    Menu
+                </a>
+                <a href="@Url.Action("Index", "Reservation", new { area = "Restaurant" })"
+                   class="block text-lg font-medium text-white hover:text-[#FDE7D0] transition-colors">
+                    Reservations
+                </a>
+                <a href="@Url.Action("Index", "Orders", new { area = "Restaurant" })"
+                   class="block text-lg font-medium text-white hover:text-[#FDE7D0] transition-colors">
+                    Orders
+                </a>
+                <a href="@Url.Action("Index", "Settings", new { area = "Restaurant" })"
+                   class="block text-lg font-medium text-white hover:text-[#FDE7D0] transition-colors">
+                    Settings
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+
+    <!-- Main Content -->
+    <main class="container mx-auto mt-6 mb-12 px-6">
+        <div class="bg-white p-8 rounded shadow-md">
+            @RenderBody()
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#7C3F2C] text-white py-6">
+        <div class="container mx-auto text-center">
+            &copy; 2024 - QuickBite Restaurant | <a href="@Url.Action("Privacy", "Home", new { area = "Restaurant" })" class="text-white underline">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

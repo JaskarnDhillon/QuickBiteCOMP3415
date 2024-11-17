@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using QuickBite.Data;
+using QuickBite.Models;
+
 
 namespace QuickBite.Areas.Identity.Pages.Account
 {
@@ -29,13 +32,15 @@ namespace QuickBite.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterRestaurantModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -43,6 +48,7 @@ namespace QuickBite.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -97,6 +103,54 @@ namespace QuickBite.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+            
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///   directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+            [Required]
+            [Display(Name = "Name")]
+            public string Name { get; set; }
+            
+            /// <summary>
+            ///    This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///  directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+            [Required]
+            [Display(Name = "Description")]
+            public string Description { get; set; }
+            
+            /// <summary>
+            ///  This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///  directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+            [Display(Name = "Photo")]
+            public string Photo { get; set; }
+            
+            /// <summary>
+            ///  This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///  directly from your code. This API may change or be removed in future releases.
+            ///  </summary>
+            [Required]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+            
+            /// <summary>
+            ///  This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///  directly from your code. This API may change or be removed in future releases.
+            ///  </summary>
+            [Required]
+            [Display(Name = "Phone")]
+            public string Phone { get; set; }
+            
+            /// <summary>
+            ///  This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///  directly from your code. This API may change or be removed in future releases.
+            ///  </summary>
+            [Required]
+            [Display(Name = "Opening Hours")]
+            public string OpeningHours { get; set; }
+            
         }
 
 
@@ -107,52 +161,72 @@ namespace QuickBite.Areas.Identity.Pages.Account
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+{
+    returnUrl ??= Url.Content("~/");
+    ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+    if (ModelState.IsValid)
+    {
+        var user = CreateUser();
+
+        // Set username and email
+        await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+
+        // Create user
+        var result = await _userManager.CreateAsync(user, Input.Password);
+
+        if (result.Succeeded)
         {
-            returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-            if (ModelState.IsValid)
+            // Create the restaurant
+            var partner = new Models.Restaurant
             {
-                var user = CreateUser();
+                Name = Input.Name,
+                Description = Input.Description,
+                Photo = Input.Photo,
+                // PartnerId = Guid.Parse(await _userManager.GetUserIdAsync(user))
+            };
+            
+            // Add restaurant to the context and save
+            _context.Add(partner);
+            await _context.SaveChangesAsync();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+            _logger.LogInformation("User created a new account with password.");
 
-                if (result.Succeeded)
-                {
-                    _logger.LogInformation("User created a new account with password.");
+            // Send confirmation email
+            var userId = await _userManager.GetUserIdAsync(user);
+            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+            var callbackUrl = Url.Page(
+                "/Account/ConfirmEmail",
+                pageHandler: null,
+                values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                protocol: Request.Scheme);
 
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+            await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+            if (_userManager.Options.SignIn.RequireConfirmedAccount)
+            {
+                return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl = returnUrl });
             }
-
-            // If we got this far, something failed, redisplay form
-            return Page();
+            else
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl);
+            }
         }
+
+        // Add model errors if the user creation failed
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+    }
+
+    // If something failed, redisplay form
+    return Page();
+}
 
         private IdentityUser CreateUser()
         {

@@ -69,6 +69,7 @@
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
     <_ContentIncludedByDefault Remove="wwwroot\lib\bootstrap\LICENSE" />
+    <_ContentIncludedByDefault Remove="Views\Dashboard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
@@ -81,6 +82,10 @@
     <Compile Remove="Views\Shared\_ExamplePartial.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\Restaurant\Data\" />
+    <Folder Include="Areas\Restaurant\Models\" />
+    <Folder Include="Areas\SiteAdmin\Data\" />
+    <Folder Include="Areas\SiteAdmin\Models\" />
     <Folder Include="wwwroot\icons\" />
 
     <Folder Include="wwwroot\img\" />
