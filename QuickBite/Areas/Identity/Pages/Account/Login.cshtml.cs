@@ -120,9 +120,12 @@ namespace QuickBite.Areas.Identity.Pages.Account
                     if (user.RestaurantId != null)
                     {
                         HttpContext.Session.SetString("RestaurantId", user.RestaurantId.ToString());
+                        HttpContext.Session.SetString("CustomerId", user.Id);
                         
                         return RedirectToAction("Index", "Home", new {area = "Restaurant"});
                     }
+                    
+                    HttpContext.Session.SetString("CustomerId", user.Id);
                     
                     _logger.LogInformation("User logged in.");
                     
