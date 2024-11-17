@@ -29,6 +29,7 @@ namespace QuickBite.Controllers
           ApplicationDbContext context,
           IHttpClientFactory httpClientFactory)
         {
+            _context = context;
             _logger = logger;
             _context = context;
             _httpClient = httpClientFactory.CreateClient();
@@ -156,8 +157,9 @@ namespace QuickBite.Controllers
         [Route("/orders")]
         public IActionResult Orders()
         {
-
-            return View();
+            var restaurants = _context.Restaurant.ToList();
+            
+            return View(restaurants);
 
         }
         [Route("/offers")]
