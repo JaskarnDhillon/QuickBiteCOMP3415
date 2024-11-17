@@ -189,6 +189,20 @@ namespace QuickBite.Controllers
         {
             return View();
         }*/
+        
+        public async Task<IActionResult> RestaurantMenu(Guid Id)
+        {
+            var products = await _context.Products.Where(p => p.RestaurantId == Id)
+                .Include(p => p.Category)
+                .ToListAsync();
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+
+            return View(products);
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
