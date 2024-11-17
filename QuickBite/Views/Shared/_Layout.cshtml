@@ -38,11 +38,57 @@
         </main>
         @*<partial name="ExamplePartial" />*@
     </div>
-    @*<footer class="">
-        <div class="">
-            &copy; 2024 - QuickBite - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="bg-[#414141] text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16 pt-10">
+                @* Logo, company name, and social media icons column *@
+                <div class="md:col-span-2 flex flex-col justify-center items-center md:items-start h-full">
+                    @* Logo and QuickBite text *@
+                    <div class="flex flex-row items-center mb-4">
+                        <img src="~/icons/qbLogo.svg" alt="QuickBite Logo" class="w-20 h-20 md:w-48 md:h-48 mb-2 md:mb-0 md:mr-4" />
+                        <h2 class="text-3xl md:text-4xl font-bold">
+                            <span class="text-white">Quick</span>
+                            <span class="text-yellow-500">Bite</span>
+                        </h2>
+                    </div>
+                    @* Social Media Icons *@
+                    <div class="flex justify-center items-center w-full space-x-6 mt-4">
+                        <img src="~/icons/Linkedin.png" alt="LinkedIn" class="w-6 h-6" />
+                        <img src="~/icons/Facebook.png" alt="Facebook" class="w-6 h-6" />
+                        <img src="~/icons/X.png" alt="X (Twitter)" class="w-6 h-6" />
+                        <img src="~/icons/Instagram.png" alt="Instagram" class="w-6 h-6" />
+                    </div>
+                </div>
+
+                @* Let Us Help You column *@
+                <div class="md:col-span-1 text-center md:text-left">
+                    <h3 class="text-2xl font-extrabold mb-6">Let Us Help You</h3>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="hover:underline">Promotions</a></li>
+                        <li><a href="#" class="hover:underline">Register as User</a></li>
+                        <li><a href="#" class="hover:underline">Register as Restaurant</a></li>
+                        <li><a href="#" class="hover:underline">Restaurants Near Me</a></li>
+                    </ul>
+                </div>
+
+                @* More Information column *@
+                <div class="md:col-span-1 text-center md:text-left">
+                    <h3 class="text-2xl font-extrabold mb-6">More Information</h3>
+                    <ul class="space-y-4">
+                        <li><a asp-controller="Home" asp-action="About" class="hover:underline">About Us</a></li>
+                        <li><a asp-controller="Home" asp-action="Terms" class="hover:underline">Terms and Conditions</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy" class="hover:underline">Privacy Policy</a></li>
+                        <li><a asp-controller="Home" asp-action="Contact" class="hover:underline">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            @* Disclaimer text *@
+            <div class="text-center text-sm mt-16 pb-5">
+                2024 QuickBite © All rights reserved. By using our service, you agree to our <a asp-controller="Home" asp-action="Terms" class="underline">Terms & Conditions</a>. Your privacy is important to us. Read our <a asp-controller="Home" asp-action="Privacy" class="underline">Privacy Policy</a>.
+            </div>
         </div>
-    </footer>*@
+    </footer>
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
