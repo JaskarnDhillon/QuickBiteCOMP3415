@@ -53,6 +53,12 @@ namespace QuickBite.Controllers
             return View();
         }
         
+        [Route("/contact")]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+        
         public IActionResult RedirectToDashboard()
         {
             return RedirectToAction("Index", "Dashboard");
