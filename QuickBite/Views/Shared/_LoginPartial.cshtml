@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <div class="flex gap-4 items-center justify-end w-full md:w-[200px]">
     @if (SignInManager.IsSignedIn(User))
     {        <div class="text-sm font-semibold text-black duration-300 transition-all hover:text-[#e8e8e8]">
             <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                Hello, @User.Identity?.Name!
+                Hello, @User.Identity?.Name
             </a>
         </div>
 
@@ -16,6 +16,9 @@
                     Logout
                 </button>
             </form>
+        </div>
+        <div class="text-sm font-semibold text-black duration-300 transition-all hover:text-[#e8e8e8]">
+            <a asp-controller="RestaurantRegistration" asp-action="Index" class="hover:underline">Register as Restaurant</a>
         </div>
     }
     else

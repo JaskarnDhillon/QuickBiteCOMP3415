@@ -13,42 +13,49 @@
 </div>
 
 <div class="overflow-x-auto">
-    <table class="min-w-full bg-white border border-gray-200 rounded-md shadow-md">
+    @if (Model.Count() == 0)
+    {
+        <p class="text-center text-gray-500">No menu items found.</p>
+    }
+    else
+    {
+     <table class="min-w-full bg-white border border-gray-200 rounded-md shadow-md">
         <thead class="bg-gray-100">
-            <tr>
-                <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Name)</th>
-                <th class="py-2 px-4 text-left font-medium text-gray-700">Photo</th>
-                <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Price)</th>
-                <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Description)</th>
-                <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Category)</th>
-                <th class="py-2 px-4 text-left font-medium text-gray-700">Actions</th>
-            </tr>
+        <tr>
+            <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Name)</th>
+            <th class="py-2 px-4 text-left font-medium text-gray-700">Photo</th>
+            <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Price)</th>
+            <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Description)</th>
+            <th class="py-2 px-4 text-left font-medium text-gray-700">@Html.DisplayNameFor(model => model.Category)</th>
+            <th class="py-2 px-4 text-left font-medium text-gray-700">Actions</th>
+        </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
-                <tr class="border-t">
-                    <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td class="py-3 px-4">
-                        @if (item.Photo != null)
-                        {
-                            <img src="~/img/product-uploads/@item.Photo" alt="Product Photo" class="w-16 h-16 object-cover rounded-md" />
-                        }
-                        else
-                        {
-                            <img src="~/img/product-uploads/placeholder.jpg" alt="Product Photo" class="w-16 h-16 object-cover rounded-md" />
-                        }
-                    </td>
-                    <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Price)</td>
-                    <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Description)</td>
-                    <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Category.Name)</td>
-                    <td class="py-3 px-4 space-x-2">
-                        <a asp-action="Edit" asp-route-id="@item.ProductId" class="text-indigo-600 hover:underline">Edit</a>
-                        <a asp-action="Details" asp-route-id="@item.ProductId" class="text-indigo-600 hover:underline">Details</a>
-                        <a asp-action="Delete" asp-route-id="@item.ProductId" class="text-red-600 hover:underline">Delete</a>
-                    </td>
-                </tr>
-            }
+        @foreach (var item in Model)
+        {
+            <tr class="border-t">
+                <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Name)</td>
+                <td class="py-3 px-4">
+                    @if (item.Photo != null)
+                    {
+                        <img src="~/img/product-uploads/@item.Photo" alt="Product Photo" class="w-16 h-16 object-cover rounded-md"/>
+                    }
+                    else
+                    {
+                        <img src="~/img/product-uploads/placeholder.jpg" alt="Product Photo" class="w-16 h-16 object-cover rounded-md"/>
+                    }
+                </td>
+                <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Price)</td>
+                <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Description)</td>
+                <td class="py-3 px-4">@Html.DisplayFor(modelItem => item.Category.Name)</td>
+                <td class="py-3 px-4 space-x-2">
+                    <a asp-action="Edit" asp-route-id="@item.ProductId" class="text-indigo-600 hover:underline">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.ProductId" class="text-indigo-600 hover:underline">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.ProductId" class="text-red-600 hover:underline">Delete</a>
+                </td>
+            </tr>
+        }
         </tbody>
-    </table>
+    </table>   
+    }
 </div>

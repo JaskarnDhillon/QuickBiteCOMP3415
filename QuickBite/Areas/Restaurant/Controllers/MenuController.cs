@@ -24,8 +24,11 @@ namespace QuickBite.Areas.Restaurant.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            var restaurantId = Guid.Parse(HttpContext.Session.GetString("RestaurantId"));
+            
+            var products = _context.Products.Include(p => p.Category)
+                .Where(r => r.RestaurantId == restaurantId);
+            return View(await products.ToListAsync());
         }
 
         [AllowAnonymous]
@@ -58,17 +61,16 @@ namespace QuickBite.Areas.Restaurant.Controllers
 
         // POST: Products/Create
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,CategoryId,Description")] Product product, IFormFile? Photo)
+        public async Task<IActionResult> Create([Bind("ProductId,Name,Price,CategoryId,Description")] Product product, IFormFile? photo)
         {
             if (ModelState.IsValid)
             {
-                // check for and upload & rename photo if there is one
-                if (Photo != null)
+                // Handle photo upload
+                if (photo != null && photo.Length > 0)
                 {
-                    var fileName = UploadPhoto(Photo);
-                    product.Photo = fileName;
+                    product.Photo = UploadPhoto(photo);
                 }
-                product.Restaurant = _context.Restaurant.FirstOrDefault(); // IMPORTANT THIS IS TEMPORARY WE CHANGE THIS UPON RESTAURANT REGISTRATION
+                product.Restaurant = await _context.Restaurant.FindAsync(Guid.Parse(HttpContext.Session.GetString("RestaurantId")));
                 product.ProductId = Guid.NewGuid(); // Assign a new GUID
                 _context.Add(product);
                 await _context.SaveChangesAsync();
@@ -182,18 +184,23 @@ namespace QuickBite.Areas.Restaurant.Controllers
             return _context.Products?.Any(e => e.ProductId == id) ?? false;
         }
 
-        private string UploadPhoto(IFormFile Photo)
+        private string UploadPhoto(IFormFile photo)
         {
-            var filePath = Path.GetTempFileName();
-            var fileName = Guid.NewGuid() + "-" + Photo.FileName;
-            var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "product-uploads", fileName);
-
-            using (var stream = new FileStream(uploadPath, FileMode.Create))
+            var uploadsDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "product-uploads");
+            if (!Directory.Exists(uploadsDir))
             {
-                Photo.CopyTo(stream);
+                Directory.CreateDirectory(uploadsDir);
             }
 
-            return fileName;
+            var uniqueFileName = $"{Guid.NewGuid()}_{photo.FileName}";
+            var filePath = Path.Combine(uploadsDir, uniqueFileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                photo.CopyTo(stream);
+            }
+
+            return uniqueFileName;
         }
     }
 }

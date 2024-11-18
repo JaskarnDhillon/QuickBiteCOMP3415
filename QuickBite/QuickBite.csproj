@@ -87,8 +87,8 @@
     <Folder Include="Areas\SiteAdmin\Data\" />
     <Folder Include="Areas\SiteAdmin\Models\" />
     <Folder Include="wwwroot\icons\" />
-
-    <Folder Include="wwwroot\img\" />
+    <Folder Include="wwwroot\img\product-uploads\" />
+    <Folder Include="wwwroot\img\restaurant-img-uploads\" />
   </ItemGroup>
 
   <Target Name="Tailwind" BeforeTargets="Build">

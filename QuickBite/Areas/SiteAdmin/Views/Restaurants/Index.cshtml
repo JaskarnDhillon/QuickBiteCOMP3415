@@ -16,30 +16,85 @@
     <div class="overflow-x-auto">
         <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
             <thead class="bg-gray-100">
-                <tr>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 border-b">
-                        @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
-                    </th>
-                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 border-b">
-                        @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
-                    </th>
-                  
-                    <th class="px-4 py-2 text-right text-sm font-medium text-gray-600 border-b">
-                        Actions
-                    </th>
-                </tr>
+            <tr>
+                <th></th>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 border-b">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+                </th>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 border-b">
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().Description)
+                </th>
+                <th class="px-4 py-2 text-left text-sm font-medium text-gray-600 border-b">
+                    Status
+                </th>
+                <th class="px-4 py-2 text-right text-sm font-medium text-gray-600 border-b">
+                    Actions
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                <!-- Unaccepted Restaurants -->
+                @foreach (var item in Model.Where(r => !r.isAccepted))
+                {
+                    <tr class="hover:bg-red-50 bg-red-100">
+                        <td>
+                            @if (item.Photo != null)
+                            {
+                                <img src="~/img/restaurant-img-uploads/@item.Photo" alt="@item.Name" class="w-16 h-16 object-cover rounded-md" />
+                            }
+                            else
+                            {
+                                <img src="~/img/shawarma.png" alt="@item.Name" class="w-16 h-16 object-cover rounded-md" />
+                            }
+                        </td>
+                        <td class="px-4 py-2 text-gray-700 font-bold border-b">
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td class="px-4 py-2 text-gray-700 border-b">
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td class="px-4 py-2 text-gray-700 border-b">
+                            <span class="text-red-500 font-semibold">Pending Review</span>
+                        </td>
+                        <td class="px-4 py-2 text-right border-b">
+                            <a asp-action="Edit" asp-route-id="@item.RestaurantId" class="text-blue-500 hover:underline">
+                                Edit
+                            </a>
+                            <span class="text-gray-400 mx-2">|</span>
+                            <a asp-action="Details" asp-route-id="@item.RestaurantId" class="text-green-500 hover:underline">
+                                Details
+                            </a>
+                            <span class="text-gray-400 mx-2">|</span>
+                            <a asp-action="Delete" asp-route-id="@item.RestaurantId" class="text-red-500 hover:underline">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+                <!-- Accepted Restaurants -->
+                @foreach (var item in Model.Where(r => r.isAccepted))
                 {
                     <tr class="hover:bg-gray-50">
+                        <td>
+                            @if (item.Photo != null)
+                            {
+                            <img src="~/img/restaurant-img-uploads/@item.Photo" alt="@item.Name" class="w-16 h-16 object-cover rounded-md" />
+                            }
+                            else
+                            {
+                            <img src="~/img/shawarma.png" alt="@item.Name" class="w-16 h-16 object-cover rounded-md" />
+                            }
+                        </td>
                         <td class="px-4 py-2 text-gray-700 border-b">
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td class="px-4 py-2 text-gray-700 border-b">
                             @Html.DisplayFor(modelItem => item.Description)
                         </td>
-                    
+                        <td class="px-4 py-2 text-gray-700 border-b">
+                            <span class="text-green-500 font-semibold">Accepted</span>
+                        </td>
                         <td class="px-4 py-2 text-right border-b">
                             <a asp-action="Edit" asp-route-id="@item.RestaurantId" class="text-blue-500 hover:underline">
                                 Edit
