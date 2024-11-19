@@ -1,4 +1,5 @@
 @using QuickBite.Controllers
+@model ApplicationUser
 @{
 ViewData["Title"] = "Dashboard";
 Layout = "_CustomerDashboardLayout";
@@ -12,23 +13,56 @@ Layout = "_CustomerDashboardLayout";
         <hr class="pb-12"/>
     </div>
     <div>
-        <form method="post" action="/Dashboard/Settings" class="space-y-6">
+        <form id="settingsForm" method="post" action="/Dashboard/Settings" class="space-y-6">
             <div>
                 <label for="name" class="block text-gray-700">First Name</label>
-                <input type="text" id="name" name="name" value="" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="name" name="name" value="@Model?.FirstName" placeholder="Enter your first name" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
             </div>
             <div>
                 <label for="surname" class="block text-gray-700">Last Name</label>
-                <input type="text" id="surname" name="surname" value="" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="surname" name="surname" value="@Model?.LastName" placeholder="Enter your last name" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
             </div>
             <div>
                 <label for="email" class="block text-gray-700">Email</label>
-                <input type="email" id="email" name="email" value="@User.Identity.Name" readonly class="w-full p-3 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
+                <input title="Email cannot be altered." type="email" id="email" name="email" value="@Model?.Email" placeholder="Enter your email" readonly class="w-full p-3 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed">
             </div>
             <div>
                 <label for="phone" class="block text-gray-700">Phone</label>
-                <input type="text" id="phone" name="phone" value="" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <input type="text" id="phone" name="phone" value="@Model?.PhoneNumber" placeholder="Enter your phone number" class="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" readonly>
+            </div>
+            <div class="mt-6">
+                <button type="button" id="editButton" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none" onclick="toggleEditMode()">Edit</button>
+                <button type="submit" id="saveButton" class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-green-700 focus:outline-none" style="display: none;">Save</button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    function toggleEditMode() {
+        const form = document.getElementById('settingsForm');
+        const inputs = form.querySelectorAll('input[type="text"], input[type="email"]');
+        const editButton = document.getElementById('editButton');
+        const saveButton = document.getElementById('saveButton');
+
+        inputs.forEach(input => {
+            if (input.id !== 'email') {
+                input.readOnly = !input.readOnly;
+                if (input.readOnly) {
+                    input.classList.remove('bg-white');
+                } else {
+                    input.classList.add('bg-white');
+                }
+            }
+        });
+
+        // Toggle visibility of buttons
+        if (editButton.style.display === 'none') {
+            editButton.style.display = 'inline-block';
+            saveButton.style.display = 'none';
+        } else {
+            editButton.style.display = 'none';
+            saveButton.style.display = 'inline-block';
+        }
+    }
+</script>
