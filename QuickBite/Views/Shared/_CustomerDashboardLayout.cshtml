@@ -54,7 +54,7 @@
         </div>
         <div class="flex flex-col gap-10 pt-12">
             <div>
-                <a href="/dashboard" class="flex items-center gap-4 link">
+                <a asp-controller="Dashboard" asp-action="Index" class="flex items-center gap-4 link">
                     @* <img src="~/icons/home.svg" alt="home icon" class="w-6" /> *@
                     <svg width="30" height="30" viewBox="0 0 37 41" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M33.9166 21.207V23.7284C33.9166 30.1943 33.9166 33.4275 32.1104 35.4362C30.3043 37.445 27.3972 37.445 21.5833 37.445H15.4166C9.60259 37.445 6.69561 37.445 4.88942 35.4362C3.08325 33.4275 3.08325 30.1943 3.08325 23.7284V21.207C3.08325 17.4137 3.08325 15.5171 3.88369 13.9448C4.68412 12.3725 6.14647 11.3966 9.07113 9.44501L12.1545 7.3875C15.2461 5.32448 16.7919 4.29297 18.4999 4.29297C20.2079 4.29297 21.7538 5.32448 24.8454 7.3875L27.9288 9.445C30.8534 11.3966 32.3157 12.3725 33.1162 13.9448" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
@@ -65,7 +65,7 @@
                 </a>
             </div>
             <div>
-                <a href="/orders" class="flex items-center gap-4 link">
+                <a asp-controller="Dashboard" asp-action="Orders" class="flex items-center gap-4 link">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -85,7 +85,7 @@
                 </a>
             </div>
             <div>
-                <a href="/offers" class="flex items-center gap-4 link">
+                <a asp-controller="Dashboard" asp-action="Offers" class="flex items-center gap-4 link">
                     <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                         <g id="SVGRepo_iconCarrier"> 
@@ -98,7 +98,7 @@
                 </a>
             </div>
             <div>
-                <a href="/favourites" class="flex items-center gap-4 link">
+                <a asp-controller="Dashboard" asp-action="Favourites" class="flex items-center gap-4 link">
                     <svg width="30" height="30" viewBox="0 0 44 47" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12.0821C18.7011 8.04235 13.1886 6.7939 9.05525 10.4931C4.92191 14.1922 4.33999 20.377 7.58593 24.752C10.2847 28.3895 18.4521 36.0614 21.129 38.5445C21.4284 38.8223 21.5781 38.9612 21.7529 39.0157C21.9052 39.0633 22.072 39.0633 22.2246 39.0157C22.3993 38.9612 22.5489 38.8223 22.8485 38.5445C25.5253 36.0614 33.6926 28.3895 36.3915 24.752C39.6374 20.377 39.1265 14.1533 34.9221 10.4931C30.7177 6.83282 25.2989 8.04235 22 12.0821Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
@@ -115,6 +115,13 @@
 
                     <span class="text-[25px] d_link_word">Settings</span>
                 </a>
+            </div>
+            <div>
+                <form class="inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="bg-yellow text-black text-sm font-semibold py-2 px-5 rounded-full hover:underline">
+                        Logout
+                    </button>
+                </form>
             </div>
         </div>
     </div>
