@@ -20,6 +20,10 @@ html {
 .h-200{
     height:200px !important;
 }
+.logout_link_word{
+    color:#808080;
+    font-size:20px;
+}
 /* Padding */
 .p-0 {
     padding: 0rem;
