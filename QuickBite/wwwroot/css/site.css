@@ -802,7 +802,7 @@ html {
 .w-half{
     width:50% !important;
 }
-.w-1/4{
+.w-14{
     width:25% !important;
 }
 .rounded-10{
@@ -917,4 +917,8 @@ html {
 }
 .active_dashboard_link{
 
+}
+
+.red-heart {
+  filter: invert(27%) sepia(76%) saturate(6651%) hue-rotate(350deg) brightness(93%) contrast(104%);
 }
