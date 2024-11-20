@@ -918,3 +918,7 @@ html {
 .active_dashboard_link{
 
 }
+
+.red-heart {
+  filter: invert(27%) sepia(76%) saturate(6651%) hue-rotate(350deg) brightness(93%) contrast(104%);
+}
