@@ -1,4 +1,5 @@
 @using QuickBite.Controllers
+@model QuickBite.Controllers.DashboardController.DashboardIndexViewModel
 @{
 ViewData["Title"] = "Dashboard";
 Layout = "_CustomerDashboardLayout";
@@ -54,12 +55,19 @@ Layout = "_CustomerDashboardLayout";
 
     <div class="px-4 pt-10">
         <h1 class="font-bold text-3xl">Restaurants Of The Day!</h1>
-        <div class="flex justify-start items-center gap-4 mt-4">
-            @foreach (var item in Model)
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+            @foreach (var item in Model.Restaurants)
             {
-            <div class="flex flex-col justify-center items-center">
-                <div class="mt-2">
-                    <img src="@item.Photo" class="w-full h-[100px]" />
+            <a asp-action="RestaurantMenu" asp-route-Id="@item.RestaurantId" class="flex flex-col justify-center items-center">
+                <div class="mt-2 h-full">
+                    @if (item.Photo != null)
+                    {
+                    <img src="~/img/restaurant-img-uploads/@item.Photo" class="w-full" style="object-fit: cover; border-radius: 15px;"/>
+                    }
+                    else
+                    {
+                    <img src="~/img/restaurant-img-uploads/default.jpg" class="w-full h-full" style="object-fit: cover; border-radius: 15px;"/>
+                    }
                 </div>
                 <div class="flex justify-between w-full gap-2 mt-4">
                     <div class="flex flex-col gap-2">
@@ -69,7 +77,7 @@ Layout = "_CustomerDashboardLayout";
                             <span class="text-gray-700 text-sm font-semibold">�</span>
                             <span class="text-gray-700 text-sm font-semibold">10 mins</span>
                         </div>
-                        <span class="text-gray-700 text-sm font-semibold">$@item.Price</span>
+                        <span class="text-gray-700 text-sm font-semibold">[Delivery Fee]</span>
                     </div>
                     <div class="h-full flex flex-col gap-4 items-center justify-between">
                         <div>
@@ -80,7 +88,7 @@ Layout = "_CustomerDashboardLayout";
                         </div>
                     </div>
                 </div>
-            </div>
+            </a>
             }
         </div>
     </div>
