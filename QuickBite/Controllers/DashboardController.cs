@@ -1,23 +1,45 @@
 using Microsoft.AspNetCore.Mvc;
 using QuickBite.Models;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
+using QuickBite.Data;
 
 namespace QuickBite.Controllers
 {
     public class DashboardController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context; 
 
-        public DashboardController(ILogger<HomeController> logger)
+        public DashboardController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
         [Route("/dashboard")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? productId)
         {
-            
-            return View();
-            
+            if (productId == null)
+            {
+                var products = await _context.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.Restaurant)
+                    .ToListAsync();
+
+                return View(products);
+            }
+
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Restaurant)
+                .FirstOrDefaultAsync(p => p.ProductId.Equals(productId));
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return View(new List<Product> { product });
         }
         [Route("/orders")]
         public IActionResult Orders()
