@@ -16,8 +16,8 @@ Layout = "_Layout";
     }
 </style>
 
-<section class="bg-white p-4">
-    <div class="register-form">
+<section class="p-4" style="background-color: #76c69d;">
+    <div class="register-form" style="background-color: #ffbe4a;">
         <h2 class="text-2xl font-bold mb-6 text-center">Register a New Restaurant</h2>
         <form asp-action="Register" asp-controller="RestaurantRegistration" enctype="multipart/form-data" method="post">
             <div class="mb-4">
@@ -62,7 +62,7 @@ Layout = "_Layout";
                 <span asp-validation-for="CloseingHour" class="text-red-500 text-sm"></span>
             </div>
 
-            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring mt-4">
+            <button type="submit" class="w-full bg-orange text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring mt-4">
                 Submit
             </button>
         </form>
