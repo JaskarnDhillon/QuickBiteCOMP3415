@@ -23,8 +23,6 @@ Layout = "_CustomerDashboardLayout";
             </div>
         </div>
     </div>
-
-    <!-- Get the Best of the Best Section (No change here) -->
     <div class="px-4 pt-10">
         <div class="">
             <h1 class="font-bold text-3xl">Get the Best of the Best</h1>
@@ -39,7 +37,7 @@ Layout = "_CustomerDashboardLayout";
                         <img src="~/img/delivery_img.png" class="w-full"/>
                     </div>
                 </div>
-                <div class="flex justify-between items-center gap-4 rounded-10 h-200 bg-green px-4 py-3">
+                <div class="flex justify-between items-center gap-4 rounded-10 h-200 bg-green-500 px-4 py-3">
                     <div class="flex flex-col gap-2">
                         <h2 class="text-white font-semibold text-lg">Get amazing and exclusive deals with Quickbite</h2>
                         <span class="text-white text-sm">Plus exclusive offers and savings</span>
@@ -58,37 +56,44 @@ Layout = "_CustomerDashboardLayout";
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
             @foreach (var item in Model.Restaurants)
             {
-            <a asp-action="RestaurantMenu" asp-route-Id="@item.RestaurantId" class="flex flex-col justify-center items-center">
-                <div class="mt-2 h-full">
-                    @if (item.Photo != null)
-                    {
-                    <img src="~/img/restaurant-img-uploads/@item.Photo" class="w-full" style="object-fit: cover; border-radius: 15px;"/>
-                    }
-                    else
-                    {
-                    <img src="~/img/restaurant-img-uploads/default.jpg" class="w-full h-full" style="object-fit: cover; border-radius: 15px;"/>
-                    }
-                </div>
-                <div class="flex justify-between w-full gap-2 mt-4">
-                    <div class="flex flex-col gap-2">
-                        <h2 class="text-gray-700 font-semibold text-lg">@item.Name</h2>
-                        <div class="flex items-center gap-1">
-                            <span class="text-gray-700 text-sm font-semibold">Delivery Time</span>
-                            <span class="text-gray-700 text-sm font-semibold">�</span>
-                            <span class="text-gray-700 text-sm font-semibold">10 mins</span>
+                @if (Model.Restaurants.Count > 0)
+                {
+                    <a asp-action="RestaurantMenu" asp-route-Id="@item.RestaurantId" class="flex flex-col justify-center items-center">
+                        <div class="mt-2 h-full">
+                            @if (item.Photo != null)
+                            {
+                                <img src="~/img/restaurant-img-uploads/@item.Photo" class="w-full" style="object-fit: cover; border-radius: 15px;"/>
+                            }
+                            else
+                            {
+                                <img src="~/img/restaurant-img-uploads/default.jpg" class="w-full h-full" style="object-fit: cover; border-radius: 15px;"/>
+                            }
                         </div>
-                        <span class="text-gray-700 text-sm font-semibold">[Delivery Fee]</span>
-                    </div>
-                    <div class="h-full flex flex-col gap-4 items-center justify-between">
-                        <div>
-                            <img src="~/icons/heart.png" class="w-full" />
+                        <div class="flex justify-between w-full gap-2 mt-4">
+                            <div class="flex flex-col gap-2">
+                                <h2 class="text-gray-700 font-semibold text-lg">@item.Name</h2>
+                                <div class="flex items-center gap-1">
+                                    <span class="text-gray-700 text-sm font-semibold">Delivery Time</span>
+                                    <span class="text-gray-700 text-sm font-semibold">�</span>
+                                    <span class="text-gray-700 text-sm font-semibold">10 mins</span>
+                                </div>
+                                <span class="text-gray-700 text-sm font-semibold">[Delivery Fee]</span>
+                            </div>
+                            <div class="h-full flex flex-col gap-4 items-center justify-between">
+                                <div>
+                                    <img src="~/icons/heart.png" class="w-full"/>
+                                </div>
+                                <div>
+                                    <img src="~/icons/addCart.png" class="w-full"/>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <img src="~/icons/addCart.png" class="w-full" />
-                        </div>
-                    </div>
-                </div>
-            </a>
+                    </a>
+                }
+                else
+                {
+                    <p>No restaurants found</p>
+                }
             }
         </div>
     </div>
