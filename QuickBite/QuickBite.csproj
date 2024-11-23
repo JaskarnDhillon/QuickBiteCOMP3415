@@ -82,6 +82,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\icons\" />
+
+    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
   <Target Name="Tailwind" BeforeTargets="Build">

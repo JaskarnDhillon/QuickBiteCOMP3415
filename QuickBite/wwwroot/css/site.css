@@ -882,3 +882,15 @@ html {
   color: #fff;
 }
 
+.dashboard_sidebar {
+    width: 300px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 12px 20px;
+    border-right: 1px solid #D4D4D4;
+    transition: width 0.3s;
+}
+.active_dashboard_link{
+
+}
