@@ -1,5 +1,4 @@
-﻿@using QuickBite.Controllers
-@model IEnumerable<QuickBite.Controllers.HomeController.ExampleModel>
+﻿
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_Layout";
@@ -27,21 +26,24 @@
             </div>
 
             <div class="px-4">
-                <div class="relative">
+                <form class="relative" asp-action="Index" asp-controller="Dashboard">
                     <img src="~/icons/location.svg" alt="location pinpoint" class='w-5 h-5 sm:w-10 sm:h-10 absolute top-1/2 left-3 transform -translate-y-1/2 svg-orange'/>
-                    <input type="text" class="w-[350px] sm:w-[400px] md:w-[600px] py-5 pl-12 sm:pl-14 pr-12 rounded-full text-lg focus:outline-none" placeholder='Enter your address'/>
-                    <button class='absolute top-1/2 right-3 transform -translate-y-1/2 flex justify-center items-center p-2 rounded-full bg-orange'>
+                    <input required name="address" type="text" class="w-[350px] sm:w-[400px] md:w-[600px] py-5 pl-12 sm:pl-14 pr-12 rounded-full text-lg focus:outline-none" placeholder='Enter your address'/>
+                    <button type="submit" class='absolute top-1/2 right-3 transform -translate-y-1/2 flex justify-center items-center p-2 rounded-full bg-orange'>
                         <img src="~/icons/arrow-right.svg" alt="arrow right" class='w-8 h-8 svg-orange'/>
                     </button>
-                </div>
+                </form>
             </div>
 
-            <div class="bg-white py-1 px-4 rounded-full w-[110px] duration-300 transition-all hover:opacity-60">
-                <a class="flex items-center justify-center gap-2" asp-area="Identity" asp-page="/Account/Login">
-                    <img src="~/icons/person.svg" alt="person icon" width={15} height={15} class='svg-orange'/>
-                    <span>Sign In</span>
-                </a>
-            </div>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="bg-white py-1 px-4 rounded-full w-[110px] duration-300 transition-all hover:opacity-60">
+                    <a class="flex items-center justify-center gap-2" asp-area="Identity" asp-page="/Account/Login">
+                        <img src="~/icons/person.svg" alt="person icon" width={15} height={15} class='svg-orange'/>
+                        <span>Sign In</span>
+                    </a>
+                </div>
+            }
         </div>
     </div>
     
@@ -249,3 +251,4 @@
         }
     </script>
 
+</div>

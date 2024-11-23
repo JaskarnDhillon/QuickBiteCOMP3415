@@ -1,33 +1,36 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
-<div class="flex gap-4 items-center justify-end w-full md:w-[200px]">
+<div class="flex gap-4 items-center justify-end w-full" style="min-width: 450px;">
     @if (SignInManager.IsSignedIn(User))
     {        <div class="text-sm font-semibold text-black duration-300 transition-all hover:text-[#e8e8e8]">
             <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                Hello, @User.Identity?.Name!
+                Hello, @(User.Identity?.Name?.Length > 10 ? User.Identity?.Name.Substring(0, 10) + "..." : User.Identity?.Name)
             </a>
         </div>
 
         <div>
             <form class="inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="bg-yellow text-black text-sm font-semibold py-2 px-5 rounded-full">
+                <button type="submit" class="bg-yellow text-black text-sm font-semibold py-2 px-5 rounded-full hover:underline">
                     Logout
                 </button>
             </form>
+        </div>
+        <div class="bg-orange py-2 px-5 rounded-full text-sm font-semibold text-black">
+            <a asp-controller="RestaurantRegistration" asp-action="Index" class="hover:underline">Register as Restaurant</a>
         </div>
     }
     else
     {
         <div class="text-sm font-semibold text-black duration-300 transition-all hover:text-[#e8e8e8]">
-            <a asp-area="Identity" asp-page="/Account/Login">
+            <a asp-area="Identity" asp-page="/Account/Login" class="hover:underline">
                 Login
             </a>
         </div>
 
         <div>
-            <a class="bg-yellow text-black text-sm font-semibold py-2 px-5 rounded-full" asp-area="Identity" asp-page="/Account/Register">
+            <a class="hover:underline bg-yellow text-black text-sm font-semibold py-2 px-5 rounded-full" asp-area="Identity" asp-page="/Account/Register">
                 Sign Up
             </a>
         </div>

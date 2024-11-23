@@ -1,24 +1,24 @@
 ﻿@page
 @using Microsoft.Data.SqlClient.DataClassification
-@model RegisterModel
+@model RegisterRestaurantModel
 @{
     ViewData["Title"] = "Register";
     Layout = "_AuthLayout";
 }
 
 
-<div class="md:flex h-screen overflow-y-auto">
+<div class="md:flex h-screen">
     <!-- Left side (image) -->
     <div class="hidden md:w-full md:block lg:w-[60%]">
         <img src="~/img/authPageImg.svg" alt="" class="w-full h-full object-cover" />
     </div>
 
     <!-- Right side (login form) -->
-    <div class="md:w-1/2 lg:w-[40%] h-full px-10 flex flex-col justify-center items-center mx-auto">
+    <div class="md:w-1/2 lg:w-[40%] h-full px-10 flex flex-col justify-center items-center mx-auto overflow-y-auto">
 
         <div class="w-full md:px-5 lg:px-16 flex flex-col justify-center items-center">
             <!-- Logo and title -->
-            <div class="">
+            <div style="margin-top: 180px;">
                 <a asp-page="/" class="flex items-center">
                     <img src="~/icons/qbLogo.svg" alt="quickbite logo" class=""/>
                     <div class="flex items-center text-[25px]">
@@ -30,6 +30,22 @@
 
             <!-- Form -->
             <form id="account" method="post" class="w-full flex flex-col gap-10 pt-6">
+                <!-- Partner Photo Input -->
+@*                 <div class="flex flex-col gap-2"> *@
+@*                     <label asp-for="Input.Photo" class="text-gray-700"></label> *@
+@*                     <input asp-for="Input.Photo" class="text-black *@
+@*                 </div> *@
+                <!-- Partner Name Input -->
+                <div class="flex flex-col gap-2">
+                    <label asp-for="Input.Name" class="text-gray-700">Partner Name</label>
+                    <input asp-for="Input.Name" class="text-black py-3 px-4 rounded-[10px] border-2 focus:border-orange outline-none" />
+                </div>
+                <!-- Partner Description Input -->
+                <div class="flex flex-col gap-2">
+                    <label asp-for="Input.Description" class="text-gray-700"></label>
+                <textarea asp-for="Input.Description" class="text-black py-3 px-4 rounded-[10px] border-2 focus:border-orange outline-none" placeholder="e.g. We serve the best Italian food in all the land!">
+                </textarea>
+                </div>
                 <!-- Email Input -->
                 <div class="flex flex-col gap-2">
                     <label asp-for="Input.Email" class="text-gray-700"></label>
@@ -47,7 +63,7 @@
                     </button>
                     <span asp-validation-for="Input.Password" class="text-red-600 text-sm"></span>
                 </div>
-                
+
                 <div class="flex flex-col gap-2 relative">
                     <label asp-for="Input.ConfirmPassword" class="text-gray-700"></label>
                     <input asp-for="Input.ConfirmPassword" class="text-black py-3 px-4 rounded-[10px] border-2 focus:border-orange outline-none" placeholder="*********"/>
@@ -65,7 +81,7 @@
                 }*@
 
                 <!-- Submit Button -->
-                <button type="submit" class="rounded-[10px] bg-orange py-3 font-semibold transition-all duration-300 hover:opacity-70">Sign In</button>
+                <button type="submit" class="rounded-[10px] bg-orange py-3 font-semibold transition-all duration-300 hover:opacity-70">Register Now</button>
             </form>
         </div>
 
@@ -73,6 +89,10 @@
         <div class="flex items-center gap-2 pt-6">
             <p class="text-gray-400">Already have an account?</p>
             <a asp-area="Identity" asp-page="/Account/Login" class="text-black font-semibold">Sign In!</a>
+        </div>
+        <div class="flex items-center gap-2 pt-6">
+            <p class="text-gray-400">Looking for Customer Registration?</p>
+            <a asp-area="Identity" asp-page="/Account/Register" class="text-black font-semibold">Register!</a>
         </div>
     </div>
 </div>
