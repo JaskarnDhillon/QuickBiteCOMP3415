@@ -19,7 +19,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
   </ItemGroup>
 
@@ -82,6 +82,8 @@
     <Compile Remove="Views\Shared\_ExamplePartial.cshtml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Areas\DeliveryDriver\Data\" />
+    <Folder Include="Areas\DeliveryDriver\Models\" />
     <Folder Include="Areas\Restaurant\Data\" />
     <Folder Include="Areas\Restaurant\Models\" />
     <Folder Include="Areas\SiteAdmin\Data\" />

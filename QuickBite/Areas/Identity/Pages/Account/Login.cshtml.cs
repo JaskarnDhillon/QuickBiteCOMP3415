@@ -116,6 +116,13 @@ namespace QuickBite.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     var user = _signInManager.UserManager.FindByEmailAsync(Input.Email).Result;
+
+                    if (user.RestaurantDeliveryDriverId != null)
+                    {
+                        HttpContext.Session.SetString("DeliveryDriverId", user.RestaurantId.ToString());
+                        HttpContext.Session.SetString("CustomerId", user.Id);
+                        return RedirectToAction("Index", "Home", new { area = "DeliveryDriver" });
+                    }
       
                     if (user.RestaurantId != null)
                     {
