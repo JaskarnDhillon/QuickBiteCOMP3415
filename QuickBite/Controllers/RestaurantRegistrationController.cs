@@ -39,8 +39,12 @@ namespace QuickBite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(
-            [Bind("Name,Description,Address,DeliveryRadius,OpeningHour,CloseingHour")] Restaurant restaurant,
-            IFormFile? photo)
+        [Bind("Name,Description,DeliveryRadius,OpeningHour,CloseingHour")] Restaurant restaurant,
+        IFormFile? photo,
+        string StreetName,
+        string StreetNumber,
+        string PostalCode,
+        string PostalTown)
         {
             try
             {
@@ -50,6 +54,9 @@ namespace QuickBite.Controllers
                     ModelState.AddModelError(string.Empty, "Unable to identify the logged-in user.");
                     return View("Index", restaurant);
                 }
+
+                // Combine address components
+                var fullAddress = $"{StreetNumber} {StreetName}, {PostalCode} {PostalTown}";
 
                 // Assign restaurant owner
                 restaurant.RestaurantOwner = user;
@@ -64,8 +71,8 @@ namespace QuickBite.Controllers
                     restaurant.Photo = UploadPhoto(photo);
                 }
 
-                // Geocode the address to get latitude and longitude
-                var geocodeResult = await GeocodeAddress(restaurant.Address);
+                // Geocode the address
+                var geocodeResult = await GeocodeAddress(fullAddress);
                 if (geocodeResult != null)
                 {
                     restaurant.Latitude = geocodeResult.Value.Latitude;
@@ -97,6 +104,7 @@ namespace QuickBite.Controllers
                 return View("Index", restaurant);
             }
         }
+
 
         private string UploadPhoto(IFormFile photo)
         {

@@ -15,22 +15,20 @@
 </head>
 <body class="mb-0">
 
-<header class='absolute left-0 top-0 z-10 w-full'>
-    <nav class="flex items-center justify-between py-3 px-4 sm:px-10 w-full">
-        <div class="w-full flex justify-start md:ml-[100px] lg:ml-[150px] md:justify-center">
-            <div class="">
-                <a href="/" class='flex gap-1 items-center'>
-                    <img src="~/icons/qbLogo.svg" alt="quickbite logo" width="100" height="100" class=''/>
-                    <div class="hidden sm:flex items-center text-[25px]">
+    <header class='absolute left-0 top-0 z-10 w-full'>
+        <nav class="flex items-center justify-between py-3 px-4 sm:px-10 w-full">
+            <div class="w-full flex justify-start md:ml-[100px] md:justify-center" style="margin-left:450px;">
+                <a href="/" class='flex gap-2 items-center'>
+                    <img src="~/icons/qbLogo.svg" alt="quickbite logo" width="100" height="100" class='' />
+                    <div class="hidden sm:flex items-center text-[25px] gap-1">
                         <h1 class='font-bold text-white'>Quick</h1>
                         <span class='text-yellow font-bold'>Bite</span>
                     </div>
                 </a>
             </div>
-        </div>
-        <partial name="_LoginPartial" />
-    </nav>
-</header>
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
 
     <div class="">
         <main role="main" >
@@ -74,7 +72,7 @@
                     <h3 class="text-2xl font-extrabold mb-6">More Information</h3>
                     <ul class="space-y-4">
                         <li><a asp-controller="Home" asp-action="About" class="hover:underline">About Us</a></li>
-                        <li><a asp-controller="Home" asp-action="Terms" class="hover:underline">Terms and Conditions</a></li>
+                        <li><a asp-controller="Home" asp-action="TermsOfUse" class="hover:underline">Terms and Conditions</a></li>
                         <li><a asp-controller="Home" asp-action="Privacy" class="hover:underline">Privacy Policy</a></li>
                         <li><a asp-controller="Home" asp-action="Contact" class="hover:underline">Contact Us</a></li>
                     </ul>
@@ -83,7 +81,7 @@
 
             @* Disclaimer text *@
             <div class="text-center text-sm mt-16 pb-5">
-                2024 QuickBite © All rights reserved. By using our service, you agree to our <a asp-controller="Home" asp-action="Terms" class="underline">Terms & Conditions</a>. Your privacy is important to us. Read our <a asp-controller="Home" asp-action="Privacy" class="underline">Privacy Policy</a>.
+                2024 QuickBite © All rights reserved. By using our service, you agree to our <a asp-controller="Home" asp-action="TermsOfUse" class="underline">Terms & Conditions</a>. Your privacy is important to us. Read our <a asp-controller="Home" asp-action="Privacy" class="underline">Privacy Policy</a>.
             </div>
         </div>
     </footer>

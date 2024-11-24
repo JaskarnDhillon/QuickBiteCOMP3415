@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net;
 using System.Text.Json;
 using QuickBite.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace QuickBite.Controllers
 {
@@ -23,10 +24,12 @@ namespace QuickBite.Controllers
         private readonly ApplicationDbContext _context;
         private readonly HttpClient _httpClient;
         private const double EARTH_RADIUS_KM = 6371;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public DashboardController(
           ILogger<HomeController> logger,
           ApplicationDbContext context,
+          UserManager<ApplicationUser> userManager,
           IHttpClientFactory httpClientFactory)
         {
             _context = context;
@@ -34,6 +37,7 @@ namespace QuickBite.Controllers
             _context = context;
             _httpClient = httpClientFactory.CreateClient();
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "QuickBite-RestaurantApp");
+            _userManager = userManager;
         }
 
         public class DashboardIndexViewModel()
@@ -177,11 +181,20 @@ namespace QuickBite.Controllers
 
         }
         [Route("/settings")]
-        public IActionResult Settings()
+        public async Task<IActionResult> Settings(string email)
+        {
+            var user = _userManager.FindByEmailAsync(email).Result;
+            return View(user);
+            
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateUser(string Id, [Bind("FirstName, LastName, PhoneNumber, Id")] ApplicationUser user)
         {
 
-            return View();
-
+            _context.Update(user);
+            return RedirectToAction("Index");
         }
 
         /*[Route("/about")]
@@ -189,6 +202,31 @@ namespace QuickBite.Controllers
         {
             return View();
         }*/
+        
+        public async Task<IActionResult> RestaurantMenu(Guid Id)
+        {
+            var products = await _context.Products.Where(p => p.RestaurantId == Id)
+                .Include(p => p.Category)
+                .ToListAsync();
+
+            if (products == null)
+            {
+                return NotFound();
+            }
+
+            return View(products);
+        }
+
+        public IActionResult Cart()
+        {
+            return View();
+        }
+
+        public IActionResult OrderDetails()
+        {
+            return View();
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
