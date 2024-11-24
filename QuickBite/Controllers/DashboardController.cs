@@ -48,6 +48,17 @@ namespace QuickBite.Controllers
         [Route("/dashboard")]
         public async Task<IActionResult> Index(string address)
         {
+            if(address == null)
+            {
+                if(HttpContext.Session.GetString("CustomerAddress") != null)
+                {
+                    address = HttpContext.Session.GetString("CustomerAddress");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+            }
 
             var viewmodel = new DashboardIndexViewModel();
             // If no address provided, just show the empty dashboard
@@ -264,6 +275,15 @@ namespace QuickBite.Controllers
             HttpContext.Session.SetInt32("ItemCount", itemCount);
 
             return View(cartItems);
+        }
+        
+        public IActionResult RemoveFromCart(Guid cartItemId)
+        {
+            var cartItem = _context.CartItems.Find(cartItemId);
+            _context.CartItems.Remove(cartItem);
+            _context.SaveChanges();
+
+            return RedirectToAction("Cart");
         }
         
         [Authorize]

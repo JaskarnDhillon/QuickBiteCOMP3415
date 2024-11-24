@@ -135,9 +135,9 @@
                 </td>
                 <td>
                     <div class="quantity-control">
-                        <button onclick="decreaseQuantity(@item.ProductId)">-</button>
-                        <span id="quantity-@item.ProductId">@item.Quantity</span>
-                        <button onclick="increaseQuantity(@item.ProductId)">+</button>
+                        
+                        <span  id="quantity-@item.ProductId">@item.Quantity</span>
+                        
                     </div>
                 </td>
 
@@ -148,9 +148,11 @@
                     @String.Format("{0:c}", item.Price * item.Quantity)
                 </td>
                 <td>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onclick="removeItem(1)">
-                        <path d="M3 6h18v2H3zm2 3h14l-1 12H6L5 9zm5-5h4v1H8V4h2zm-1-2h6v1H7V2z"/>
-                    </svg>
+                    <a asp-action="RemoveFromCart" asp-controller="Dashboard" asp-route-cartItemId="@item.CartItemId">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M3 6h18v2H3zm2 3h14l-1 12H6L5 9zm5-5h4v1H8V4h2zm-1-2h6v1H7V2z"/>
+                        </svg>
+                    </a>
                 </td>
             </tr>
         }
@@ -158,7 +160,7 @@
     </table>
 
     <div class="cart-total">
-        Total: <span id="cart-total">@total</span>
+        Total: <span id="cart-total">@string.Format("{0:c}", total)</span>
     </div>
 
     <a asp-action="Checkout" class="checkout-btn max-w-xl">Proceed to Checkout</a>
@@ -178,15 +180,9 @@
         let quantity = parseInt(quantityElement.textContent);
         if (quantity > 1) {
             quantity--;
-            quantityElement.textContent = quantity;
+            quantityElement.value = quantity;
             updateTotal();
         }
-    }
-
-    function removeItem(id) {
-        const row = document.querySelector(`#quantity-${id}`).closest('tr');
-        row.remove();
-        updateTotal();
     }
 
     function updateTotal() {
