@@ -1,7 +1,9 @@
 @using QuickBite.Views.Dashboard
+@model IEnumerable<QuickBite.Models.CartItem>
 @{
     ViewData["Title"] = "Cart";
     Layout = "_CustomerDashboardLayout";
+    decimal total = 0;
 }
 
 <style>
@@ -118,56 +120,48 @@
                 <th>Item</th>
                 <th>Quantity</th>
                 <th>Price</th>
+                <th>Total</th>
                 <th>Remove</th>
             </tr>
         </thead>
         <tbody>
+        @foreach (var item in Model)
+        {
+            total += item.Price * item.Quantity;
             <tr class="cart-item">
                 <td>
-                    <img src="~/img/burger.png" alt="Burger Image">
-                    Angus Beef Burger
+                    <img src="~/img/product-uploads/@item.Product.Photo" alt="Burger Image">
+                    @item.Product.Name
                 </td>
                 <td>
                     <div class="quantity-control">
-                        <button onclick="decreaseQuantity(1)">-</button>
-                        <span id="quantity-1">1</span>
-                        <button onclick="increaseQuantity(1)">+</button>
+                        <button onclick="decreaseQuantity(@item.ProductId)">-</button>
+                        <span id="quantity-@item.ProductId">@item.Quantity</span>
+                        <button onclick="increaseQuantity(@item.ProductId)">+</button>
                     </div>
                 </td>
-                <td>$12.99</td>
+
+                <td>
+                    @String.Format("{0:c}", item.Price)
+                </td>
+                <td>
+                    @String.Format("{0:c}", item.Price * item.Quantity)
+                </td>
                 <td>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onclick="removeItem(1)">
-                        <path d="M3 6h18v2H3zm2 3h14l-1 12H6L5 9zm5-5h4v1H8V4h2zm-1-2h6v1H7V2z" />
+                        <path d="M3 6h18v2H3zm2 3h14l-1 12H6L5 9zm5-5h4v1H8V4h2zm-1-2h6v1H7V2z"/>
                     </svg>
                 </td>
             </tr>
-            <tr class="cart-item">
-                <td>
-                    <img src="~/img/Fries.jpeg" alt="Fries Image">
-                    Large Fries
-                </td>
-                <td>
-                    <div class="quantity-control">
-                        <button onclick="decreaseQuantity(2)">-</button>
-                        <span id="quantity-2">2</span>
-                        <button onclick="increaseQuantity(2)">+</button>
-                    </div>
-                </td>
-                <td>$4.99</td>
-                <td>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" onclick="removeItem(2)">
-                        <path d="M3 6h18v2H3zm2 3h14l-1 12H6L5 9zm5-5h4v1H8V4h2zm-1-2h6v1H7V2z" />
-                    </svg>
-                </td>
-            </tr>
+        }
         </tbody>
     </table>
 
     <div class="cart-total">
-        Total: <span id="cart-total">$22.97</span>
+        Total: <span id="cart-total">@total</span>
     </div>
 
-    <a href="/checkout" class="checkout-btn max-w-xl">Proceed to Checkout</a>
+    <a asp-action="Checkout" class="checkout-btn max-w-xl">Proceed to Checkout</a>
 </div>
 
 <script>
@@ -190,7 +184,7 @@
     }
 
     function removeItem(id) {
-        const row = document.querySelector(`.cart-item:nth-child(${id})`);
+        const row = document.querySelector(`#quantity-${id}`).closest('tr');
         row.remove();
         updateTotal();
     }
@@ -198,7 +192,7 @@
     function updateTotal() {
         const rows = document.querySelectorAll('.cart-item');
         let total = 0;
-        rows.forEach((row, index) => {
+        rows.forEach(row => {
             const price = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace('$', ''));
             const quantity = parseInt(row.querySelector('.quantity-control span').textContent);
             total += price * quantity;
@@ -206,3 +200,4 @@
         document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
     }
 </script>
+

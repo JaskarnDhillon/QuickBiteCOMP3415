@@ -49,6 +49,11 @@ public class Order
     [Display(Name = "Email")]
     [MaxLength(100)]
     public Guid CustomerId { get; set; }
+    
+    public string? OrderNotes { get; set; }
+    
+    //enum for order status
+    public OrderStatus OrderStatus { get; set; }
 
     // child ref
     public List<OrderDetail>? OrderDetails { get; set; }

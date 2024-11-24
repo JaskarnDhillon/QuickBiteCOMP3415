@@ -6,6 +6,7 @@ using static QuickBite.Controllers.HomeController;
 using System.Net.Http;
 using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using QuickBite.Data;
 using Microsoft.AspNetCore.Identity;
 
@@ -54,17 +55,16 @@ namespace QuickBite.Controllers
             {
                 return View(viewmodel);
             }
+            
+            // Geocoding part
+            var encodedAddress = Uri.EscapeDataString(address);
+            var geocodingUrl = $"https://nominatim.openstreetmap.org/search?q={encodedAddress}&format=json&limit=1";
 
-           
-                // Geocoding part
-                var encodedAddress = Uri.EscapeDataString(address);
-                var geocodingUrl = $"https://nominatim.openstreetmap.org/search?q={encodedAddress}&format=json&limit=1";
+            var response = await _httpClient.GetAsync(geocodingUrl);
+            response.EnsureSuccessStatusCode();
 
-                var response = await _httpClient.GetAsync(geocodingUrl);
-                response.EnsureSuccessStatusCode();
-
-                var content = await response.Content.ReadAsStringAsync();
-                var geocodingResponse = JsonSerializer.Deserialize<List<NominatimResponse>>(content);
+            var content = await response.Content.ReadAsStringAsync();
+            var geocodingResponse = JsonSerializer.Deserialize<List<NominatimResponse>>(content);
 
             if (geocodingResponse == null || !geocodingResponse.Any())
             {
@@ -80,49 +80,34 @@ namespace QuickBite.Controllers
             }
 
             await Task.Delay(1000);
+            
+            // Get accepted restaurants with coordinates
+            var validRestaurants = _context.Restaurant
+                .Where(r => r.isAccepted && r.Latitude.HasValue && r.Longitude.HasValue)
+                .ToList();
 
-              
-                    // Get accepted restaurants with coordinates
-                    var validRestaurants = _context.Restaurant
-                        .Where(r => r.isAccepted && r.Latitude.HasValue && r.Longitude.HasValue)
-                        .ToList();
+            // Calculate distances and filter
+            var restaurantsInRange = validRestaurants
+                .Select(r => new
+                {
+                    Restaurant = r,
+                    Distance = CalculateDistance(
+                        customerLat,
+                        customerLng,
+                        r.Latitude.Value,
+                        r.Longitude.Value
+                    )
+                })
+                .Where(r => r.Distance <= r.Restaurant.DeliveryRadius)
+                .Select(r => r.Restaurant)
+                .ToList();
 
-                    // Calculate distances and filter
-                    var restaurantsInRange = validRestaurants
-                        .Select(r => new
-                        {
-                            Restaurant = r,
-                            Distance = CalculateDistance(
-                                customerLat,
-                                customerLng,
-                                r.Latitude.Value,
-                                r.Longitude.Value
-                            )
-                        })
-                        .Where(r => r.Distance <= r.Restaurant.DeliveryRadius)
-                        .Select(r => r.Restaurant)
-                        .ToList();
-
-                    viewmodel.Restaurants = restaurantsInRange;
-                    // Store results
-                    //TempData["CustomerAddress"] = geocodingResponse[0].display_name;
-                    //TempData["CustomerLat"] = customerLat;
-                    //TempData["CustomerLng"] = customerLng;
-
-                    // Serialize with error handling
-                    //try
-                    //{
-                    //    var serializedRestaurants = JsonSerializer.Serialize(restaurantsInRange);
-                    //    TempData["AvailableRestaurants"] = serializedRestaurants;
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    _logger.LogError(ex, "Error serializing restaurants");
-                    //    TempData["Error"] = "Error processing restaurant data.";
-                    //    return View(new List<Restaurant>());
-                    //}
-
-                    return View(viewmodel);
+            viewmodel.Restaurants = restaurantsInRange;
+            
+            HttpContext.Session.SetString("CustomerAddress", address);
+            ViewBag.CustomerAddress = address;
+            
+            return View(viewmodel);
                 
         }
 
@@ -158,6 +143,7 @@ namespace QuickBite.Controllers
 
             return EARTH_RADIUS_KM * c;
         }
+        
         [Route("/orders")]
         public IActionResult Orders()
         {
@@ -192,7 +178,6 @@ namespace QuickBite.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateUser(string Id, [Bind("FirstName, LastName, PhoneNumber, Id")] ApplicationUser user)
         {
-
             _context.Update(user);
             return RedirectToAction("Index");
         }
@@ -217,17 +202,121 @@ namespace QuickBite.Controllers
             return View(products);
         }
 
+        public async Task<IActionResult> AddToCart(Guid ProductId, int Quantity)
+        {
+            var product = await _context.Products.FindAsync(ProductId);
+            
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var customerId = GetCustomerId();
+            
+            var cartItem = _context.CartItems
+                .Where(c => c.ProductId == ProductId && c.CustomerId == Guid.Parse((customerId)))
+                .FirstOrDefault();
+
+            
+            if (cartItem == null)
+            {
+                // create a new product object
+                cartItem = new CartItem
+                {
+                    ProductId = ProductId,
+                    Quantity = Quantity,
+                    CustomerId = Guid.Parse(customerId),
+                    Price = product.Price
+                };
+               
+                _context.CartItems.Add(cartItem);
+            }
+            else
+            {
+                cartItem.Quantity += Quantity;
+                _context.CartItems.Update(cartItem);
+            }
+
+            // save to db
+            _context.SaveChanges();
+
+            // redirect to cart page
+            return RedirectToAction("Cart");
+        }
+
         public IActionResult Cart()
         {
-            return View();
-        }
+            // identify the cart using the session var
+            var customerId = GetCustomerId();
 
-        public IActionResult OrderDetails()
+            // fetch the items in this cart
+            var cartItems = _context.CartItems
+                .Include(c => c.Product)
+                .Where(c => c.CustomerId == Guid.Parse(customerId));
+
+            // get total # of items in user's cart & store in session var for navbar badge
+            int itemCount = (from c in cartItems
+                select c.Quantity).Sum();
+
+            HttpContext.Session.SetInt32("ItemCount", itemCount);
+
+            return View(cartItems);
+        }
+        
+        [Authorize]
+        public IActionResult Checkout()
         {
+            ViewBag.CustomerId = GetCustomerId();
             return View();
         }
+        
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Checkout([Bind("FirstName,LastName,Address,City,Province,PostalCode,Phone,OrderNotes")] Order order)
+        {
+            var customerId = HttpContext.Session.GetString("CustomerId");
+            
+            // auto-fill the other 3 order properties (date, total, customer)
+            order.OrderDate = DateTime.Now.ToUniversalTime();
+            order.CustomerId = Guid.Parse(customerId);
 
+            // calc order total
+            var cartItems = _context.CartItems.Where(c => c.CustomerId == order.CustomerId)
+                .Include(c => c.Product);
+            order.OrderTotal = (from c in cartItems
+                select (c.Quantity * c.Price)).Sum();
+            
+            // save order to db
+            _context.Orders.Add(order);
+            _context.SaveChanges();
+            
+            return RedirectToAction("OrderDetails" , new { orderId = order.OrderId });
+        }
 
+        public IActionResult OrderDetails(Guid orderId)
+        {
+            var order = _context.Orders
+                .Where(o => o.OrderId == orderId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .FirstOrDefault();
+            
+            return View(order);
+        }
+        
+        public string GetCustomerId()
+        {
+            // check for existing session var for this user
+            if (HttpContext.Session.GetString("CustomerId") == null)
+            {
+                // if there is no session var, create one using a GUID
+                HttpContext.Session.SetString("CustomerId", Guid.NewGuid().ToString());
+            }
+
+            // return the session var
+            return HttpContext.Session.GetString("CustomerId");
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
