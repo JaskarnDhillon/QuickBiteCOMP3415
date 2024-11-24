@@ -46,8 +46,6 @@ public class Order
     public string Phone { get; set; }
 
     [Required]
-    [Display(Name = "Email")]
-    [MaxLength(100)]
     public Guid CustomerId { get; set; }
     
     public string? OrderNotes { get; set; }
