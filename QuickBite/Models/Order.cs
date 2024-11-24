@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuickBite.Models;
 
@@ -55,4 +56,10 @@ public class Order
 
     // child ref
     public List<OrderDetail>? OrderDetails { get; set; }
+
+
+    public Guid? RestaurantId { get; set; }
+
+    [ForeignKey(nameof(RestaurantId))]
+    public virtual Restaurant? Restaurant { get; set; }
 }
