@@ -217,6 +217,17 @@ namespace QuickBite.Controllers
             return View(products);
         }
 
+        public IActionResult Cart()
+        {
+            return View();
+        }
+
+        public IActionResult OrderDetails()
+        {
+            return View();
+        }
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

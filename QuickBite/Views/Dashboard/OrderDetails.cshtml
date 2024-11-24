@@ -1,0 +1,226 @@
+﻿@{
+    ViewData["Title"] = "Order Details";
+    Layout = "_Layout";
+}
+
+<style>
+    body {
+        background-color: #f1f1f1; 
+        font-family: Arial, sans-serif;
+    }
+
+    .order-details-container {
+        max-width: 800px;
+        margin: 100px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .order-info {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+        .order-info span {
+            display: block;
+            margin: 5px 0;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #7CB69D;
+        color: white;
+        text-align: left;
+    }
+
+    .total-row td {
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+        .pagination a {
+            text-decoration: none;
+            margin: 0 5px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            color: black; 
+            background-color: transparent; 
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+            .pagination a.active {
+                background-color: #FEEEE7; 
+                color: #F17B45; 
+            }
+
+            .pagination a.disabled {
+                color: #ccc; 
+                cursor: not-allowed;
+            }
+
+            .pagination a:hover:not(.active):not(.disabled) {
+                background-color: #f5f5f5;
+                border-radius: 20px;
+            }
+
+        .pagination .arrow {
+            font-weight: bold;
+            font-size: 18px;
+        }
+</style>
+
+<div class="order-details-container">
+    <h1>ORDER DETAILS</h1>
+
+    <div class="order-details">
+        <span><strong>Order Number:</strong> 12345678</span>
+        <span><strong>Order Date:</strong> 2024-06-10</span>
+        <span><strong>Delivery Address:</strong> 123 Main Street, City, Country</span>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Angus Beef Burger with Pickles</td>
+                <td>1</td>
+                <td>$12.99</td>
+            </tr>
+            <tr>
+                <td>Large Fries</td>
+                <td>1</td>
+                <td>$4.99</td>
+            </tr>
+            <tr>
+                <td>Soft Drink</td>
+                <td>2</td>
+                <td>$5.98</td>
+            </tr>
+            <tr class="total-row">
+                <td colspan="2">Total</td>
+                <td>$23.96</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <a id="prevPage" class="arrow disabled" onclick="changePage(-1)">&#8592;</a>
+        <a id="page1" class="active" onclick="changePage(1)">1</a>
+        <a id="page2" onclick="changePage(2)">2</a>
+        <a id="page3" onclick="changePage(3)">3</a>
+        <a id="nextPage" class="arrow" onclick="changePage(1)">&#8594;</a>
+    </div>
+</div>
+
+<script>
+    const orders = [
+        { id: '12345678', date: '2024-06-10', address: '123 Main Street, City, Country', items: [{ name: 'Angus Beef Burger with Pickles', quantity: 1, price: 12.99 }, { name: 'Large Fries', quantity: 1, price: 4.99 }, { name: 'Soft Drink', quantity: 2, price: 5.98 }] },
+        { id: '87654321', date: '2024-06-11', address: '456 Another Street, City, Country', items: [{ name: 'Chicken Sandwich', quantity: 1, price: 11.99 }, { name: 'Sweet Potato Fries', quantity: 1, price: 5.99 }, { name: 'Iced Tea', quantity: 2, price: 6.98 }] },
+        { id: '11223344', date: '2024-06-12', address: '789 New Road, City, Country', items: [{ name: 'Veggie Burger', quantity: 1, price: 10.99 }, { name: 'Small Fries', quantity: 1, price: 3.99 }, { name: 'Soda', quantity: 1, price: 2.99 }] }
+    ];
+
+    let currentPage = 1;
+
+    function loadOrderDetails(page) {
+        const order = orders[page - 1];
+        const orderDetails = `
+                <div class="order-info">
+                    <span><strong>Order Number:</strong> ${order.id}</span>
+                    <span><strong>Order Date:</strong> ${order.date}</span>
+                    <span><strong>Delivery Address:</strong> ${order.address}</span>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${order.items.map(item => `
+                            <tr>
+                                <td>${item.name}</td>
+                                <td>${item.quantity}</td>
+                                <td>$${item.price.toFixed(2)}</td>
+                            </tr>
+                        `).join('')}
+                        <tr class="total-row">
+                            <td colspan="2">Total</td>
+                            <td>$${order.items.reduce((total, item) => total + item.price, 0).toFixed(2)}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+        document.getElementById('order-details').innerHTML = orderDetails;
+    }
+
+    function updatePagination() {
+        const prevArrow = document.getElementById('prevPage');
+        const nextArrow = document.getElementById('nextPage');
+
+        prevArrow.classList.toggle('disabled', currentPage === 1);
+        nextArrow.classList.toggle('disabled', currentPage === orders.length);
+
+        document.querySelectorAll('.pagination a').forEach((el, index) => {
+            el.classList.remove('active');
+            if (parseInt(el.textContent) === currentPage) {
+                el.classList.add('active');
+            }
+        });
+    }
+
+    function changePage(newPage) {
+        if (newPage < 1 || newPage > orders.length) return;
+
+        currentPage = newPage;
+        loadOrderDetails(currentPage);
+        updatePagination();
+    }
+
+    function goToPage(page) {
+        currentPage = page;
+        loadOrderDetails(currentPage);
+        updatePagination();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadOrderDetails(currentPage);
+        updatePagination();
+    });
+</script>

@@ -5,38 +5,220 @@
 }
 <style>
     table {
-        font-family: arial, sans-serif;
-        border-collapse: collapse;
         width: 100%;
+        font-family: Arial, sans-serif;
+        border-collapse: collapse;
     }
 
-    td, th {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
+    th {
+        background-color: #7CB69D;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        border: none;
     }
 
+    td {
+        background-color: white;
+        text-align: center;
+        padding: 15px;
+        border: none;
+    }
+
+    .order-info-row {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .order-id {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .order-description {
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    button {
+        width: 100px; 
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .btn-order-again {
+        background-color: #FFBE4A; 
+        color: black;
+        text-align: center;
+    }
+
+    .btn-leave-review {
+        background-color: #FE7048; 
+        color: black;
+        text-align: center;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+    }
+
+        .pagination a {
+            text-decoration: none;
+            margin: 0 5px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            color: black; 
+            background-color: transparent; 
+            font-weight: bold;
+        }
+
+            .pagination a.active {
+                background-color: #FEEEE7; 
+                color: #F17B45; 
+
+            .pagination a.disabled {
+                color: #ccc; 
+                cursor: not-allowed;
+            }
+
+            .pagination a:hover:not(.active):not(.disabled) {
+                background-color: #f5f5f5;
+                border-radius: 20px;
+            }
+
+        .pagination .arrow {
+            font-weight: bold;
+            font-size: 18px;
+        }
 </style>
-<div class="flex flex-col pt-20 px-10">
-    <h1 class="text-3xl font-bold">Orders</h1>
 
+<div class="flex flex-col pt-20 px-10" style="background-color: #f9f9f9;">
+    <h1 class="text-3xl font-bold">Your Orders</h1>
 
-        <table class="mt-4">
-            <tr class="bg-green  text-white">
-                <th class="py-2">Order Id</th>
-                <th class="py-2">Order Name</th>
-                <th class="py-2">Resturant</th>
-                <th class="py-2">Order Date</th>
-                <th class="py-2">Price</th>
-            </tr>
-            <tr>
-                <td>
-                    <img src="~/img/burger.png" class="w-40" />
-                </td>
-                <td>Large Burger with fries</td>
-                <td>A&W</td>
-                <td>06/10/2024</td>
-                <td>$12.99</td>
-            </tr>
-        </table>
+    <table class="mt-4 w-full">
+        <tr>
+            <th class="text-center w-1/3">Order Placed: Date</th>
+            <th class="text-center w-1/3">Status</th>
+            <th class="text-center w-1/3">Total</th>
+        </tr>
+        <tr class="order-info-row">
+            <td class="text-center">
+                <span class="order-id block font-bold">Order# 12345678</span>
+                <img src="~/img/burger.png" class="w-40 mx-auto mt-2" alt="Burger Image" />
+            </td>
+            <td class="text-center">
+                <span class="order-description text-lg block">Angus Beef Burger with Pickles</span>
+                <span class="block mt-1 text-lg">+ Large Fries</span>
+            </td>
+            <td class="text-center flex flex-col items-center justify-center">
+                <button class="btn-order-again w-40 mb-2">Order Again</button>
+                <button class="btn-leave-review w-40">Leave Review</button>
+            </td>
+        </tr>
+
+        <tr>
+            <th class="text-center w-1/3">Order Placed: Date</th>
+            <th class="text-center w-1/3">Status</th>
+            <th class="text-center w-1/3">Total</th>
+        </tr>
+        <tr class="order-info-row">
+            <td class="text-center">
+                <span class="order-id block font-bold">Order# 87654321</span>
+                <img src="~/img/burger.png" class="w-40 mx-auto mt-2" alt="Burger Image" />
+            </td>
+            <td class="text-center">
+                <span class="order-description text-lg block">Chicken Burger</span>
+                <span class="block mt-1 text-lg">+ Large Fries</span>
+            </td>
+            <td class="text-center flex flex-col items-center justify-center">
+                <button class="btn-order-again w-40 mb-2">Order Again</button>
+                <button class="btn-leave-review w-40">Leave Review</button>
+            </td>
+        </tr>
+
+        <tr>
+            <th class="text-center w-1/3">Order Placed: Date</th>
+            <th class="text-center w-1/3">Status</th>
+            <th class="text-center w-1/3">Total</th>
+        </tr>
+        <tr class="order-info-row">
+            <td class="text-center">
+                <span class="order-id block font-bold">Order# 11223344</span>
+                <img src="~/img/burger.png" class="w-40 mx-auto mt-2" alt="Burger Image" />
+            </td>
+            <td class="text-center">
+                <span class="order-description text-lg block">Veggie Burger</span>
+                <span class="block mt-1 text-lg">+ Small Fries</span>
+            </td>
+            <td class="text-center flex flex-col items-center justify-center">
+                <button class="btn-order-again w-40 mb-2">Order Again</button>
+                <button class="btn-leave-review w-40">Leave Review</button>
+            </td>
+        </tr>
+    </table>
+
+    <div class="pagination">
+    <a id="prevPage" class="arrow disabled" onclick="changePage(-1)">&#8592;</a>
+
+    <a id="page1" class="active" onclick="changePage(1)">1</a>
+    <a id="page2" style="display: none;" onclick="changePage(2)">2</a>
+    <a id="page3" style="display: none;" onclick="changePage(3)">3</a>
+
+    <a id="nextPage" class="arrow" onclick="changePage(1)">&#8594;</a>
+</div>
+
+<script>
+        let currentPage = 1;
+        const itemsPerPage = 3; 
+        const totalItems = 10; 
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+        function updatePagination() {
+            const prevArrow = document.getElementById('prevPage');
+            const nextArrow = document.getElementById('nextPage');
+            const pages = document.querySelectorAll('.pagination a');
+
+            for (let i = 1; i <= totalPages; i++) {
+                const pageElement = document.getElementById(`page${i}`);
+                if (pageElement) {
+                    pageElement.style.display = i <= totalPages ? 'inline-block' : 'none';
+                    pageElement.classList.toggle('active', i === currentPage);
+                }
+            }
+
+            prevArrow.classList.toggle('disabled', currentPage === 1);
+            nextArrow.classList.toggle('disabled', currentPage === totalPages);
+
+            prevArrow.onclick = currentPage > 1 ? () => changePage(currentPage - 1) : null;
+            nextArrow.onclick = currentPage < totalPages ? () => changePage(currentPage + 1) : null;
+
+            updateVisibleItems();
+        }
+
+        function changePage(page) {
+            if (page < 1 || page > totalPages) return; 
+            currentPage = page;
+            updatePagination();
+        }
+
+        function updateVisibleItems() {
+            const items = document.querySelectorAll('.order-info-row');
+            items.forEach((item, index) => {
+                const startIdx = (currentPage - 1) * itemsPerPage;
+                const endIdx = startIdx + itemsPerPage;
+                item.style.display = index >= startIdx && index < endIdx ? 'table-row' : 'none';
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updatePagination();
+        });
+
+</script>
 </div>
