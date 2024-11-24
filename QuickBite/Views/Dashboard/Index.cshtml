@@ -58,6 +58,10 @@ Layout = "_CustomerDashboardLayout";
             {
                 @if (Model.Restaurants.Count > 0)
                 {
+                    var random = new Random();
+                    var deliveryTime = random.Next(5, 60);
+                    var deliveryFee = random.NextDouble() > 0.5 ? "Free" : $"${(random.NextDouble() * 10):0.00}";
+                    
                     <a asp-action="RestaurantMenu" asp-route-Id="@item.RestaurantId" class="flex flex-col justify-center items-center">
                         <div class="mt-2 h-full">
                             @if (item.Photo != null)
@@ -75,9 +79,9 @@ Layout = "_CustomerDashboardLayout";
                                 <div class="flex items-center gap-1">
                                     <span class="text-gray-700 text-sm font-semibold">Delivery Time</span>
                                     <span class="text-gray-700 text-sm font-semibold">�</span>
-                                    <span class="text-gray-700 text-sm font-semibold">10 mins</span>
+                                    <span class="text-gray-700 text-sm font-semibold">@deliveryTime mins</span>
                                 </div>
-                                <span class="text-gray-700 text-sm font-semibold">[Delivery Fee]</span>
+                                <span class="text-gray-700 text-sm font-semibold">[Delivery Fee: @deliveryFee]</span>
                             </div>
                             <div class="h-full flex flex-col gap-4 items-center justify-between">
                                 <div>
