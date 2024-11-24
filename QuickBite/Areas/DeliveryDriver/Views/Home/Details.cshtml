@@ -1,0 +1,35 @@
+﻿@model QuickBite.Models.Order
+
+<div class="container mx-auto mt-10 px-4">
+    <h1 class="text-2xl font-bold text-gray-800 mb-6">Order Details</h1>
+
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <p class="text-gray-700"><strong>Order ID:</strong> @Model.OrderId</p>
+        <p class="text-gray-700"><strong>Order Details:</strong> @Model.OrderNotes</p>
+        <p class="text-gray-700"><strong>Total Price:</strong> $@Model.OrderTotal.ToString("F2")</p>
+        <p class="text-gray-700"><strong>Current Status:</strong> @Model.OrderStatus</p>
+    </div>
+
+    <form asp-action="UpdateOrderStatus" method="post" class="mt-6">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="id" value="@Model.OrderId" />
+
+        <div class="flex space-x-4">
+            @if (Model.OrderStatus == OrderStatus.Ready)
+            {
+                <button type="submit" name="status" value="@OrderStatus.OutForDelivery"
+                        class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded-md">
+                    Mark as Out for Delivery
+                </button>
+            }
+
+            @if (Model.OrderStatus == OrderStatus.OutForDelivery)
+            {
+                <button type="submit" name="status" value="@OrderStatus.Delivered"
+                        class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md">
+                    Mark as Delivered
+                </button>
+            }
+        </div>
+    </form>
+</div>

@@ -18,6 +18,7 @@
                         <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Order ID</th>
                         <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Order Address</th>
                         <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Total Price</th>
+                        <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Order Status</th>
                         <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Actions</th>
                     </tr>
                 </thead>
@@ -28,12 +29,14 @@
                             <td class="py-3 px-4 text-gray-700">@order.OrderId.ToString().Substring(order.OrderId.ToString().Length - 4)</td>
                             <td class="py-3 px-4 text-gray-700">@order.Address</td>
                             <td class="py-3 px-4 text-gray-700">$@order.OrderTotal</td>
+                            <td class="py-3 px-4 text-gray-700">@order.OrderStatus</td>
                             <td class="py-3 px-4 text-gray-700">@order.OrderNotes</td>
                             <td class="py-3 px-4">
-                                <a href="@Url.Action("Details", "Order", new { id = order.OrderId, area = "DeliveryDriver" })"
+                                <a href="@Url.Action("Details", "Home", new { id = order.OrderId, area = "DeliveryDriver" })"
                                    class="text-sm font-medium text-blue-600 hover:text-blue-800">
                                     View Details
                                 </a>
+
                             </td>
                         </tr>
                     }
