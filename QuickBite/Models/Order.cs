@@ -56,8 +56,9 @@ public class Order
 
     // child ref
     public List<OrderDetail>? OrderDetails { get; set; }
-
-
+    
+    public DateTime? DeliveryTime { get; set; }
+    
     public Guid? RestaurantId { get; set; }
 
     [ForeignKey(nameof(RestaurantId))]

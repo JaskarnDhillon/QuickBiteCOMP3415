@@ -303,6 +303,27 @@ namespace QuickBite.Controllers
             // save order to db
             _context.Orders.Add(order);
             _context.SaveChanges();
+
+            foreach (var item in cartItems)
+            {
+                var orderDetail = new OrderDetail
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    OrderId = order.OrderId
+                };
+
+                _context.OrderDetails.Add(orderDetail);
+            }
+            _context.SaveChanges(); 
+
+            // empty user's cart
+            foreach (var item in cartItems)
+            {
+                _context.CartItems.Remove(item);
+            }
+            _context.SaveChanges();
             
             return RedirectToAction("OrderDetails" , new { orderId = order.OrderId });
         }
