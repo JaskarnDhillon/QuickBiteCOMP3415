@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using QuickBite.Data;
 using QuickBite.Models;
 using System.Net.Http;
@@ -40,6 +41,82 @@ namespace QuickBite.Areas.Restaurant.Controllers
             var restaurant = _context.Restaurant.Where(r=>r.RestaurantOwenrId==user.Id).FirstOrDefault();
             return View(restaurant);
         }
+
+        public async Task<IActionResult> DeliveryDriver()
+        {
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Fetch the restaurant for the logged-in user
+            var restaurant = await _context.Restaurant
+                .Where(r => r.RestaurantOwenrId == user.Id)
+                .FirstOrDefaultAsync();
+            // fetch delivery driver id
+            var deliveryDriverId = restaurant.DeliveryDriverId;
+
+            // find the user that has that dilevery driver id
+            if (deliveryDriverId != null)
+            {
+                var driverEmail = _context.ApplicationUsers.Where(u => u.RestaurantDeliveryDriverId == deliveryDriverId).FirstOrDefault();
+                if (driverEmail != null)
+                {
+                    ViewBag.DriverEmail = driverEmail;
+                }
+            }
+            if (restaurant != null)
+            {
+                ViewBag.RestaurantId = restaurant.RestaurantId; // Pass the RestaurantId to the view
+            }
+
+
+            return View(restaurant);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignDeliveryDriver(string email, Guid RestaurantId)
+        {
+
+            var restaurant = _context.Restaurant.Find(RestaurantId);
+
+            if (string.IsNullOrWhiteSpace(email) || RestaurantId == Guid.Empty)
+            {
+                ModelState.AddModelError("", "Invalid input data.");
+                return RedirectToAction(nameof(DeliveryDriver));
+            }
+
+            // Find the user by email
+            var deliveryDriver = await _userManager.FindByEmailAsync(email);
+            if (deliveryDriver == null)
+            {
+                ModelState.AddModelError("", "No user found with the provided email.");
+                return RedirectToAction(nameof(DeliveryDriver));
+            }
+
+            // Assign the delivery driver to the restaurant
+            deliveryDriver.RestaurantDeliveryDriverId = RestaurantId;
+            restaurant.DeliveryDriverId = deliveryDriver.RestaurantDeliveryDriverId;
+            
+
+            var result = await _userManager.UpdateAsync(deliveryDriver);
+            if (result.Succeeded)
+            {
+                return RedirectToAction(nameof(DeliveryDriver));
+            }
+
+            // Handle errors if the update fails
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return RedirectToAction(nameof(DeliveryDriver));
+        }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
