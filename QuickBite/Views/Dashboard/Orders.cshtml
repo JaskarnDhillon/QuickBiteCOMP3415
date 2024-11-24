@@ -1,7 +1,47 @@
-@using QuickBite.Controllers
+<!-- View: PastOrders.cshtml -->
+@model IEnumerable<QuickBite.Models.Order>
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Orders";
     Layout = "_CustomerDashboardLayout";
 }
+<div class="container mx-auto px-4 mt-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Past Orders</h1>
+    </div>
 
-<div>Orders</div>
+    <div class="overflow-hidden rounded-lg shadow-md">
+        <table class="min-w-full table-auto bg-white">
+            <thead class="bg-gray-100">
+            <tr>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Order Date</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Order Total</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Status</th>
+                <th class="px-6 py-3 text-left text-sm font-medium text-gray-700">Details</th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (Model.Any())
+            {
+            foreach (var order in Model)
+            {
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-6 py-4 text-gray-700">@order.OrderDate.ToString("MMMM dd, yyyy")</td>
+                <td class="px-6 py-4 text-gray-700">@order.OrderTotal.ToString("C")</td>
+                <td class="px-6 py-4 text-gray-700">@order.OrderStatus</td>
+                <td class="px-6 py-4">
+                    <a asp-action="OrderDetails" asp-route-orderId="@order.OrderId" 
+                       class="text-blue-500 hover:underline">View Details</a>
+                </td>
+            </tr>
+            }
+            }
+            else
+            {
+            <tr>
+                <td colspan="4" class="px-6 py-4 text-center text-gray-500">No past orders available.</td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

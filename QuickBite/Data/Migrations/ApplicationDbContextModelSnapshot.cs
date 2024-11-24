@@ -208,6 +208,9 @@ namespace QuickBite.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
+                    b.Property<Guid?>("RestaurantDeliveryDriverId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid?>("RestaurantId")
                         .HasColumnType("uuid");
 
@@ -290,8 +293,10 @@ namespace QuickBite.Data.Migrations
                         .HasColumnType("character varying(50)");
 
                     b.Property<Guid>("CustomerId")
-                        .HasMaxLength(100)
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("DeliveryTime")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -305,6 +310,12 @@ namespace QuickBite.Data.Migrations
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("OrderNotes")
+                        .HasColumnType("text");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("OrderTotal")
                         .HasColumnType("numeric");
@@ -324,7 +335,12 @@ namespace QuickBite.Data.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("character varying(2)");
 
+                    b.Property<Guid?>("RestaurantId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("OrderId");
+
+                    b.HasIndex("RestaurantId");
 
                     b.ToTable("Orders");
                 });
@@ -401,6 +417,9 @@ namespace QuickBite.Data.Migrations
 
                     b.Property<DateTime>("CloseingHour")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("DeliveryDriverId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("DeliveryRadius")
                         .HasColumnType("integer");
@@ -500,6 +519,15 @@ namespace QuickBite.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("QuickBite.Models.Order", b =>
+                {
+                    b.HasOne("QuickBite.Models.Restaurant", "Restaurant")
+                        .WithMany("Orders")
+                        .HasForeignKey("RestaurantId");
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("QuickBite.Models.OrderDetail", b =>
                 {
                     b.HasOne("QuickBite.Models.Order", "Order")
@@ -569,6 +597,8 @@ namespace QuickBite.Data.Migrations
 
             modelBuilder.Entity("QuickBite.Models.Restaurant", b =>
                 {
+                    b.Navigation("Orders");
+
                     b.Navigation("Products");
                 });
 #pragma warning restore 612, 618

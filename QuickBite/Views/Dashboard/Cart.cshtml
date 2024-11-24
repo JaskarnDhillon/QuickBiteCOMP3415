@@ -1,88 +1,199 @@
-@model IEnumerable<QuickBite.Models.CartItem>
 @using QuickBite.Views.Dashboard
+@model IEnumerable<QuickBite.Models.CartItem>
 @{
     ViewData["Title"] = "Cart";
     Layout = "_CustomerDashboardLayout";
+    decimal total = 0;
 }
 
-<h1>Cart</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+    }
 
-@if (Model.Count() == 0)
-{
-    <h4 class="text-danger">Click Shop above to Get Started!</h4>
-}
-else
-{
-    <table class="table table-striped table-hover">
+    .cart-container {
+        max-width: 1200px;
+        margin: 40px auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 15px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #7CB69D; 
+        color: white;
+        text-align: left;
+    }
+
+    .cart-item img {
+        width: 80px;
+        height: auto;
+        border-radius: 5px;
+    }
+
+    .cart-item svg {
+        width: 20px;
+        height: 20px;
+        fill: #F17B45;
+        cursor: pointer;
+    }
+
+    .quantity-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .quantity-control button {
+            background-color: #F17B45;
+            border: none;
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .quantity-control span {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+    .cart-total {
+        text-align: right;
+        font-size: 18px;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+    .checkout-btn {
+        display: block;
+        margin: 20px auto;
+        background-color: #FE7048;
+        color: white;
+        text-align: center;
+        padding: 15px 30px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+        .checkout-btn:hover {
+            background-color: #eb6742;
+        }
+</style>
+
+<div class="cart-container">
+    <h1>Cart</h1>
+
+    <table>
         <thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Product)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
+                <th>Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
                 <th>Total</th>
-                <th></th>
+                <th>Remove</th>
             </tr>
         </thead>
         <tbody>
-        @{
-            decimal total = 0;
-            foreach (var item in Model)
-            {
-                total += item.Price * item.Quantity;
-            }
-        }
         @foreach (var item in Model)
         {
-            // keep running tota'
-            <tr>
+            total += item.Price * item.Quantity;
+            <tr class="cart-item">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Product.Name)
-                    <div>
-                        @if (item.Product.Photo != null)
-                        {
-                            <img src="~/img/product-uploads/@item.Product.Photo" alt="@item.Product.Name Photo" class="h-16"/>
-                        }
-                        else
-                        {
-                            <img src="~/img/shawarma.png.jpg" alt="@item.Product.Name Photo" class="h-16"/>
-                        }
+                    <img src="~/img/product-uploads/@item.Product.Photo" alt="Burger Image">
+                    @item.Product.Name
+                </td>
+                <td>
+                    <div class="quantity-control">
+                        
+                        <span  id="quantity-@item.ProductId">@item.Quantity</span>
+                        
                     </div>
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
+
                 <td>
                     @String.Format("{0:c}", item.Price)
                 </td>
                 <td>
-                    @String.Format("{0:c}", (item.Price * item.Quantity))
+                    @String.Format("{0:c}", item.Price * item.Quantity)
                 </td>
                 <td>
-                    <a asp-action="RemoveFromCart" asp-route-id="@item.CartItemId">Remove</a>
+                    <a asp-action="RemoveFromCart" asp-controller="Dashboard" asp-route-cartItemId="@item.CartItemId">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M3 6h18v2H3zm2 3h14l-1 12H6L5 9zm5-5h4v1H8V4h2zm-1-2h6v1H7V2z"/>
+                        </svg>
+                    </a>
                 </td>
             </tr>
         }
-        <tr>
-            <td></td>
-            <td></td>
-            <td>
-                <a class="btn btn-primary" asp-action="Index">
-                    Continue Shopping
-                </a>
-            </td>
-            <td><strong>@String.Format("{0:c}", total)</strong></td>
-            <td>
-                <a class="btn btn-primary" asp-action="Checkout">
-                    Checkout
-                </a>
-            </td>
-        </tr>
         </tbody>
     </table>
-}
+
+    <div class="cart-total">
+        Total: <span id="cart-total">@string.Format("{0:c}", total)</span>
+    </div>
+
+    <a asp-action="Checkout" class="checkout-btn max-w-xl">Proceed to Checkout</a>
+</div>
+
+<script>
+    function increaseQuantity(id) {
+        const quantityElement = document.getElementById(`quantity-${id}`);
+        let quantity = parseInt(quantityElement.textContent);
+        quantity++;
+        quantityElement.textContent = quantity;
+        updateTotal();
+    }
+
+    function decreaseQuantity(id) {
+        const quantityElement = document.getElementById(`quantity-${id}`);
+        let quantity = parseInt(quantityElement.textContent);
+        if (quantity > 1) {
+            quantity--;
+            quantityElement.value = quantity;
+            updateTotal();
+        }
+    }
+
+    function updateTotal() {
+        const rows = document.querySelectorAll('.cart-item');
+        let total = 0;
+        rows.forEach(row => {
+            const price = parseFloat(row.querySelector('td:nth-child(3)').textContent.replace('$', ''));
+            const quantity = parseInt(row.querySelector('.quantity-control span').textContent);
+            total += price * quantity;
+        });
+        document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+    }
+</script>
+

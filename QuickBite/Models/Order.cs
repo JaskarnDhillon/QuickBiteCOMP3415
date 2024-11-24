@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace QuickBite.Models;
 
@@ -46,10 +47,20 @@ public class Order
     public string Phone { get; set; }
 
     [Required]
-    [Display(Name = "Email")]
-    [MaxLength(100)]
     public Guid CustomerId { get; set; }
+    
+    public string? OrderNotes { get; set; }
+    
+    //enum for order status
+    public OrderStatus OrderStatus { get; set; }
 
     // child ref
     public List<OrderDetail>? OrderDetails { get; set; }
+    
+    public DateTime? DeliveryTime { get; set; }
+    
+    public Guid? RestaurantId { get; set; }
+
+    [ForeignKey(nameof(RestaurantId))]
+    public virtual Restaurant? Restaurant { get; set; }
 }
