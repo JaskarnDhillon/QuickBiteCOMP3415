@@ -36,9 +36,11 @@ namespace QuickBite.Areas.Restaurant.Controllers
 
             var restaurant = _context.Restaurant.Where(r => r.RestaurantOwenrId == user.Id).FirstOrDefault();
             
-            
+            // get all the orders within this restaurant
+            var orders = _context.Orders.Include(o=>o.OrderDetails)
+                .ThenInclude(od=>od.Product).Where(o=>o.RestaurantId==restaurant.RestaurantId).ToList();
 
-            return View();
+            return View(orders);
         }
     }
 }

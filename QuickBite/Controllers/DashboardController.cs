@@ -284,6 +284,14 @@ namespace QuickBite.Controllers
             // calc order total
             var cartItems = _context.CartItems.Where(c => c.CustomerId == order.CustomerId)
                 .Include(c => c.Product);
+
+            // get the restaurant from the product 
+
+            var restaurant = _context.Restaurant.Where(r=>r.Products.Contains(cartItems.FirstOrDefault().Product)).FirstOrDefault();
+
+            // save the restaurant Id of the order
+            order.RestaurantId = restaurant.RestaurantId;
+
             order.OrderTotal = (from c in cartItems
                 select (c.Quantity * c.Price)).Sum();
             
