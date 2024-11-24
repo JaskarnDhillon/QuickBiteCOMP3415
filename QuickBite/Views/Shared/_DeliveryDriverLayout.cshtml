@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Delivery Driver</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-yellow-500 shadow-lg">
+        <nav class="container mx-auto">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center justify-between h-20">
+                    <!-- Logo -->
+                    <a href="/DeliveryDriver" class="flex items-center space-x-3 group">
+                        <span class="text-3xl font-extrabold tracking-wide text-white group-hover:text-gray-900 transition-colors duration-300">
+                            Quick<span class="text-gray-900">Bite</span>
+                        </span>
+                        <span class="text-lg tracking-wide text-gray-900">
+                            Delivery Driver Dashboard
+                        </span>
+                    </a>
+
+                    <!-- Navigation Links -->
+                    <div class="hidden lg:flex items-center space-x-8">
+                        <a href="@Url.Action("Dashboard", "DeliveryDriver", new { area = "DeliveryDriver" })"
+                           class="text-lg font-medium text-white hover:text-gray-900 transition-colors duration-200">
+                            <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                        </a>
+                        <a href="@Url.Action("AssignedOrders", "DeliveryDriver", new { area = "DeliveryDriver" })"
+                           class="text-lg font-medium text-white hover:text-gray-900 transition-colors duration-200">
+                            <i class="fas fa-list-ul mr-2"></i>Assigned Orders
+                        </a>
+                   @*       <a href="@Url.Action("Earnings", "DeliveryDriver", new { area = "DeliveryDriver" })"
+                            class="text-lg font-medium text-white hover:text-gray-900 transition-colors duration-200">
+                             <i class="fas fa-dollar-sign mr-2"></i>Earnings
+                         </a>
+                         <a href="@Url.Action("Settings", "DeliveryDriver", new { area = "DeliveryDriver" })"
+                            class="text-lg font-medium text-white hover:text-gray-900 transition-colors duration-200">
+                             <i class="fas fa-user-cog mr-2"></i>Settings
+                         </a> *@
+                    </div>
+
+                    <!-- User Account -->
+                    <div class="flex items-center text-gray-900 space-x-6">
+                        <div class="hidden md:block">
+                            <partial name="_LoginPartial" />
+                        </div>
+
+                        <!-- Mobile Menu Button -->
+                        <button class="lg:hidden inline-flex items-center justify-center p-2 rounded-md text-white hover:text-gray-900 hover:bg-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900">
+                            <i class="fa fa-bars fa-lg"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 min-h-screen bg-gray-100">
+        @RenderBody()
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-yellow-500 text-gray-900 mt-12">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="text-center md:text-left">
+                    <p class="text-lg font-semibold">&copy; 2024 QuickBite Delivery</p>
+                    <p class="text-sm text-gray-700 mt-1">Fast and reliable delivery services</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="@Url.Action("Privacy", "Home", new { area = "DeliveryDriver" })"
+                       class="text-gray-900 hover:text-gray-700 transition-colors duration-200">
+                        Privacy Policy
+                    </a>
+                    <a href="#" class="text-gray-900 hover:text-gray-700 transition-colors duration-200">
+                        Terms of Service
+                    </a>
+                    <a href="#" class="text-gray-900 hover:text-gray-700 transition-colors duration-200">
+                        Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
+</body>
+</html>
