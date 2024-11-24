@@ -1,0 +1,56 @@
+﻿@model QuickBite.Models.Order
+
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4">Order Details</h1>
+
+    <div class="mb-4">
+        <p><strong>Order ID:</strong> @Model.OrderId.ToString().Substring(Model.OrderId.ToString().Length - 4)</p>
+        <p><strong>Customer Name:</strong> @Model.FirstName @Model.LastName</p>
+        <p><strong>Order Date:</strong> @Model.OrderDate.ToString("yyyy-MM-dd")</p>
+        <p><strong>Order Total:</strong> @Model.OrderTotal.ToString("C")</p>
+        <p><strong>Address:</strong> @Model.Address, @Model.City, @Model.Province, @Model.PostalCode</p>
+        <p><strong>Phone:</strong> @Model.Phone</p>
+        <p>
+            <strong>Status:</strong>
+            <span class="px-2 py-1 rounded @Model.OrderStatus switch">
+                @Model.OrderStatus
+            </span>
+        </p>
+    </div>
+
+    <h2 class="text-xl font-bold mb-2">Order Items</h2>
+    <table class="table-auto w-full border-collapse border border-gray-300 shadow-lg rounded-lg mb-4">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-300 px-4 py-2">Product</th>
+                <th class="border border-gray-300 px-4 py-2">Quantity</th>
+                <th class="border border-gray-300 px-4 py-2">Price</th>
+                <th class="border border-gray-300 px-4 py-2">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderDetails)
+            {
+                <tr class="hover:bg-gray-50">
+                    <td class="border border-gray-300 px-4 py-2">@item.Product?.Name</td>
+                    <td class="border border-gray-300 px-4 py-2">@item.Quantity</td>
+                    <td class="border border-gray-300 px-4 py-2">@item.Price.ToString("C")</td>
+                    <td class="border border-gray-300 px-4 py-2">@((item.Price * item.Quantity).ToString("C"))</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2 class="text-xl font-bold mb-4">Update Order Status</h2>
+    <form asp-action="UpdateStatus" method="post" class="space-y-4">
+        <input type="hidden" name="id" value="@Model.OrderId" />
+        <div class="flex space-x-2">
+            <button type="submit" name="status" value="Approved" class="text-white bg-blue-500 hover:bg-blue-600 font-semibold py-2 px-4 rounded">
+                Mark as Approved
+            </button>
+            <button type="submit" name="status" value="Ready" class="text-white bg-green-500 hover:bg-green-600 font-semibold py-2 px-4 rounded">
+                Mark as Ready
+            </button>
+        </div>
+    </form>
+</div>

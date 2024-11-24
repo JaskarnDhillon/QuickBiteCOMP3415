@@ -42,5 +42,52 @@ namespace QuickBite.Areas.Restaurant.Controllers
 
             return View(orders);
         }
+
+        public async Task<IActionResult> Details(Guid id)
+        {
+            // Get the current user
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+
+            // Fetch the restaurant for this user
+            var restaurant = _context.Restaurant.FirstOrDefault(r => r.RestaurantOwenrId == user.Id);
+
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            // Fetch the specific order with its details
+            var order = _context.Orders
+                .Where(o=>o.RestaurantId==restaurant.RestaurantId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .FirstOrDefault(o => o.RestaurantId == restaurant.RestaurantId && o.OrderId == id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(Guid id, OrderStatus status)
+        {
+            // Find the order
+            var order = await _context.Orders.FindAsync(id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Update the status
+            order.OrderStatus = status;
+            _context.Update(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
     }
 }
