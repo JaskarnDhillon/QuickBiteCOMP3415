@@ -33,5 +33,7 @@ public class Restaurant
 
 
     public List<Product>? Products { get; set; }
+
+    public ICollection<Order>? Orders { get; set; }
     
 }
