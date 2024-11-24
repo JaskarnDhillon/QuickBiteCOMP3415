@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuickBite.Data;
 using QuickBite.Models;
 
@@ -25,6 +26,21 @@ namespace QuickBite.Areas.DeliveryDriver.Controllers
                 return Unauthorized();
             }
             return View();
+        }
+
+        public IActionResult AssignedOrders()
+        {
+            var user = _userManager.GetUserAsync(User).Result.RestaurantDeliveryDriverId;
+            if (user== null)
+            {
+                return Unauthorized();
+            }
+            // get the orders from restaurants where user is driver at and send the ones that are ready
+
+            var restaurnt = _context.Restaurant.Include(r=>r.Orders).Where(r => r.RestaurantId==user).FirstOrDefault();
+
+            var orders = restaurnt.Orders.Where(o=>o.OrderStatus==OrderStatus.Ready).ToList();
+            return View(orders);
         }
     }
 }
