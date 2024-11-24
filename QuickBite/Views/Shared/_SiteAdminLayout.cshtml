@@ -10,44 +10,55 @@
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body class="mb-0">
-    <header class='absolute left-0 top-0 z-10 w-full bg-gray-800'>
-        <nav class="flex items-center justify-between py-3 px-4 sm:px-10 w-full">
-            <div class="w-full flex justify-start md:ml-[100px] lg:ml-[150px] md:justify-center">
-                <div>
-                    <a href="/" class='flex gap-1 items-center'>
-                        <img src="~/icons/qbLogo.svg" alt="quickbite logo" width="100" height="100" />
-                        <div class="hidden sm:flex items-center text-[25px]">
-                            <h1 class='font-bold text-white'>Quick</h1>
-                            <span class='text-yellow font-bold'>Bite Admin</span>
+<body class="bg-gray-50 min-h-screen">
+    <header class="fixed w-full top-0 z-50 bg-gray-900 shadow-lg">
+        <nav class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <!-- Logo Section -->
+                <div class="flex items-center">
+                    <a href="/" class="flex items-center space-x-2">
+                        <img src="~/icons/qbLogo.svg" alt="quickbite logo" class="w-12 h-12" />
+                        <div class="hidden sm:flex items-center text-2xl">
+                            <h1 class="font-bold text-white">Quick</h1>
+                            <span class="text-yellow font-bold">Bite Admin</span>
                         </div>
                     </a>
                 </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:flex items-center space-x-6">
+                    <a class="nav-link text-gray-300 hover:text-yellow-400 transition-colors duration-200 font-medium"
+                       asp-area="SiteAdmin"
+                       asp-controller="Categories"
+                       asp-action="Index">
+                        <i class="fas fa-th-list mr-2"></i>Categories
+                    </a>
+                    <a class="nav-link text-gray-300 hover:text-yellow-400 transition-colors duration-200 font-medium"
+                       asp-area="SiteAdmin"
+                       asp-controller="Restaurants"
+                       asp-action="Index">
+                        <i class="fas fa-utensils mr-2"></i>Restaurants
+                    </a>
+                </div>
+
+                <!-- User Menu -->
+                <div class="flex items-center space-x-4">
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-            <div>
-                <ul class="nav">
-                    <li class="nav-item flex space-x-6">
-                        <a class="nav-link text-white hover:text-yellow-300" asp-area="SiteAdmin" asp-controller="Categories" asp-action="Index">Categories</a>
-                        <a class="nav-link text-white hover:text-yellow-300" asp-area="SiteAdmin" asp-controller="Restaurants" asp-action="Index">Restaurants</a>
-                    </li>
-                </ul>
-            </div>
-            <partial name="_LoginPartial" />
         </nav>
     </header>
 
-    <div class="pt-20">
-        <main>
-            @RenderBody()
-        </main>
+    <!-- Main Content -->
+    <div class="pt-20 min-h-screen bg-gray-50">
+        <div class="container mx-auto px-4 py-8">
+            <main class="bg-white rounded-lg shadow-md p-6">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
-    <div>
-        <main role="main">
-            @RenderBody()
-        </main>
-    </div>
-
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

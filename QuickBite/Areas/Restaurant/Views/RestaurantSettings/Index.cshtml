@@ -1,0 +1,89 @@
+﻿@model QuickBite.Models.Restaurant
+
+<div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    <h1 class="text-2xl font-semibold text-gray-800 mb-6">Edit Restaurant</h1>
+    <form asp-area="Restaurant"
+          asp-controller="RestaurantSettings"
+          asp-action="Edit"
+          asp-route-id="@Model.RestaurantId"
+          method="post"
+          enctype="multipart/form-data"
+          class="space-y-6">
+        <input type="hidden" asp-for="RestaurantId" />
+
+        <!-- Name -->
+        <div>
+            <label asp-for="Name" class="block text-sm font-medium text-gray-700">Name</label>
+            <input asp-for="Name" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+            <span asp-validation-for="Name" class="text-sm text-red-500"></span>
+        </div>
+
+        <!-- Description -->
+        <div>
+            <label asp-for="Description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea asp-for="Description" rows="4" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800"></textarea>
+            <span asp-validation-for="Description" class="text-sm text-red-500"></span>
+        </div>
+
+        <!-- Photo -->
+        <div>
+            <label asp-for="Photo" class="block text-sm font-medium text-gray-700">Photo</label>
+            <input asp-for="Photo" type="file" class="mt-1 block w-full text-gray-800" />
+        </div>
+
+        <!-- Address -->
+        <div>
+            <label asp-for="Address" class="block text-sm font-medium text-gray-700">Address</label>
+            <input asp-for="Address" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+            <span asp-validation-for="Address" class="text-sm text-red-500"></span>
+        </div>
+
+        <!-- Latitude and Longitude -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label asp-for="Latitude" class="block text-sm font-medium text-gray-700">Latitude</label>
+                <input asp-for="Latitude" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+                <span asp-validation-for="Latitude" class="text-sm text-red-500"></span>
+            </div>
+            <div>
+                <label asp-for="Longitude" class="block text-sm font-medium text-gray-700">Longitude</label>
+                <input asp-for="Longitude" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+                <span asp-validation-for="Longitude" class="text-sm text-red-500"></span>
+            </div>
+        </div>
+
+        <!-- Delivery Radius -->
+        <div>
+            <label asp-for="DeliveryRadius" class="block text-sm font-medium text-gray-700">Delivery Radius (in km)</label>
+            <input asp-for="DeliveryRadius" type="number" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+            <span asp-validation-for="DeliveryRadius" class="text-sm text-red-500"></span>
+        </div>
+
+        <!-- Opening and Closing Hours -->
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <label asp-for="OpeningHour" class="block text-sm font-medium text-gray-700">Opening Hour</label>
+                <input asp-for="OpeningHour" type="time" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+                <span asp-validation-for="OpeningHour" class="text-sm text-red-500"></span>
+            </div>
+            <div>
+                <label asp-for="CloseingHour" class="block text-sm font-medium text-gray-700">Closing Hour</label>
+                <input asp-for="CloseingHour" type="time" class="mt-1 block w-full px-4 py-2 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-800" />
+                <span asp-validation-for="CloseingHour" class="text-sm text-red-500"></span>
+            </div>
+        </div>
+
+        <!-- Is Accepted -->
+        <div>
+            <label asp-for="isAccepted" class="block text-sm font-medium text-gray-700">Accepted</label>
+            <input asp-for="isAccepted" type="checkbox" class="mt-1" />
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit" class="w-full px-4 py-2 text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Save Changes
+            </button>
+        </div>
+    </form>
+</div>
