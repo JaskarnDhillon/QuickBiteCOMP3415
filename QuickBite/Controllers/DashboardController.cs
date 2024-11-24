@@ -145,12 +145,15 @@ namespace QuickBite.Controllers
         }
         
         [Route("/orders")]
-        public IActionResult Orders()
+        public IActionResult Orders(Guid customerId)
         {
-            var restaurants = _context.Restaurant.ToList();
+            var orders = _context.Orders
+                .Where(o => o.CustomerId == customerId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .ToList();
             
-            return View(restaurants);
-
+            return View(orders);
         }
         [Route("/offers")]
         public IActionResult Offers()
@@ -286,6 +289,8 @@ namespace QuickBite.Controllers
                 .Include(c => c.Product);
             order.OrderTotal = (from c in cartItems
                 select (c.Quantity * c.Price)).Sum();
+
+            order.OrderStatus = OrderStatus.Placed;
             
             // save order to db
             _context.Orders.Add(order);
@@ -301,8 +306,31 @@ namespace QuickBite.Controllers
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)
                 .FirstOrDefault();
+
+            if (order.OrderStatus != OrderStatus.Delivered)
+            {
+                ViewBag.Delivered = false;
+            }
             
             return View(order);
+        }
+        
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public IActionResult ConfirmOrder(Guid orderId)
+        {
+            var order = _context.Orders
+                .Where(o => o.OrderId == orderId)
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
+                .FirstOrDefault();
+            
+            order.OrderStatus = OrderStatus.Confirmed;
+            _context.Orders.Update(order);
+            _context.SaveChanges();
+            
+            return RedirectToAction("OrderDetails", new { orderId = orderId });
         }
         
         public string GetCustomerId()
