@@ -79,4 +79,29 @@ app.UseEndpoints(endpoints =>
 });
 app.MapRazorPages();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        await SeedData.SeedRoles(roleManager);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+        await SeedData.SeedUsers(userManager);
+
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+    }
+}
+
 app.Run();
