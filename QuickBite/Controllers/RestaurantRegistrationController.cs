@@ -41,10 +41,7 @@ namespace QuickBite.Controllers
         public async Task<IActionResult> Register(
         [Bind("Name,Description,DeliveryRadius,OpeningHour,CloseingHour")] Restaurant restaurant,
         IFormFile? photo,
-        string StreetName,
-        string StreetNumber,
-        string PostalCode,
-        string PostalTown)
+        string address)
         {
             try
             {
@@ -56,11 +53,12 @@ namespace QuickBite.Controllers
                 }
 
                 // Combine address components
-                var fullAddress = $"{StreetNumber} {StreetName}, {PostalCode} {PostalTown}";
+                var fullAddress = address;
 
                 // Assign restaurant owner
                 restaurant.RestaurantOwner = user;
                 restaurant.RestaurantOwenrId = user.Id;
+                restaurant.Address = fullAddress;
                 restaurant.isAccepted = false;
                 restaurant.OpeningHour = restaurant.OpeningHour.ToUniversalTime();
                 restaurant.CloseingHour = restaurant.CloseingHour.ToUniversalTime();

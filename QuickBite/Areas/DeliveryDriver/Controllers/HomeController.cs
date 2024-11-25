@@ -25,7 +25,7 @@ namespace QuickBite.Areas.DeliveryDriver.Controllers
             {
                 return Unauthorized();
             }
-            return View();
+            return RedirectToAction("AssignedOrders");
         }
 
         public IActionResult AssignedOrders()
@@ -39,7 +39,7 @@ namespace QuickBite.Areas.DeliveryDriver.Controllers
 
             var restaurnt = _context.Restaurant.Include(r=>r.Orders).Where(r => r.RestaurantId==user).FirstOrDefault();
 
-            var orders = restaurnt.Orders.Where(o=>o.OrderStatus==OrderStatus.Ready || o.OrderStatus==OrderStatus.OutForDelivery || o.OrderStatus==OrderStatus.Delivered).ToList();
+            var orders = restaurnt.Orders.Where(o=>o.OrderStatus==OrderStatus.Ready || o.OrderStatus==OrderStatus.OutForDelivery || o.OrderStatus==OrderStatus.Delivered || o.OrderStatus == OrderStatus.Confirmed).ToList();
             return View(orders);
         }
 
@@ -86,6 +86,11 @@ namespace QuickBite.Areas.DeliveryDriver.Controllers
 
             // Update the order status
             order.OrderStatus = status;
+
+            if (order.OrderStatus == OrderStatus.Delivered)
+            {
+                order.DeliveryTime = DateTime.Now.ToUniversalTime();
+            }
             _context.SaveChanges();
 
             return RedirectToAction("AssignedOrders");
