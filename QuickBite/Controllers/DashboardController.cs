@@ -367,7 +367,7 @@ namespace QuickBite.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public IActionResult ConfirmOrder(Guid orderId)
+        public IActionResult ConfirmOrder(Guid orderId, string feedback)
         {
             var order = _context.Orders
                 .Where(o => o.OrderId == orderId)
@@ -376,6 +376,7 @@ namespace QuickBite.Controllers
                 .FirstOrDefault();
             
             order.OrderStatus = OrderStatus.Confirmed;
+            order.OrderFeedback = feedback;
             _context.Orders.Update(order);
             _context.SaveChanges();
             
