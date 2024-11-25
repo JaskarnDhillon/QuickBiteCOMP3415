@@ -64,5 +64,37 @@
                 }
             </tbody>
         </table>
+
+        @if (Model.OrderStatus == OrderStatus.Delivered)
+        {
+            <div class="mt-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">Order Feedback</h2>
+                <form asp-action="ConfirmOrder" method="post" class="space-y-4">
+                    <input type="hidden" name="OrderId" value="@Model.OrderId" />
+                    
+                    <div>
+                        <textarea id="feedback" name="Feedback" rows="3" 
+                                  class="w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring focus:ring-blue-300"
+                                  placeholder="Write your feedback here..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" 
+                                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                            Confirm Delivery
+                        </button>
+                    </div>
+                </form>
+            </div>
+        }
+        else if (Model.OrderStatus == OrderStatus.Confirmed)
+        {
+            <div class="mt-8">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">Your Feedback</h2>
+                <div class="p-4 bg-gray-50 border border-gray-200 rounded-lg">
+                    <p class="text-gray-700">@Model.OrderNotes</p>
+                </div>
+            </div>
+        }
     </div>
 </div>
