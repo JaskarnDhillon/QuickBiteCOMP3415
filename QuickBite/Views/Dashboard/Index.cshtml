@@ -54,53 +54,61 @@ Layout = "_CustomerDashboardLayout";
     </div>
 
     <div class="px-4 pt-10">
-        <h1 class="font-bold text-3xl">Restaurants Of The Day!</h1>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-            @foreach (var item in Model.Restaurants)
-            {
-                @if (Model.Restaurants.Count > 0)
+        <h1 class="font-bold text-3xl">Restaurants</h1>
+        @if(!Model.Restaurants.Any())
+        {
+            <h2>No restaurants found</h2>
+            <a asp-action="Index" asp-controller="Home" class="">Return Home!</a>
+        }
+        else
+        {
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                @foreach (var item in Model.Restaurants)
                 {
-                    var random = new Random();
-                    var deliveryTime = random.Next(5, 60);
-                    var deliveryFee = random.NextDouble() > 0.5 ? "Free" : $"${(random.NextDouble() * 10):0.00}";
-                    
-                    <a asp-action="RestaurantMenu" asp-route-Id="@item.RestaurantId" class="flex flex-col justify-center items-center">
-                        <div class="mt-2 h-full">
-                            @if (item.Photo != null)
-                            {
-                                <img src="~/img/restaurant-img-uploads/@item.Photo" class="w-full" style="object-fit: cover; border-radius: 15px;"/>
-                            }
-                            else
-                            {
-                                <img src="~/img/restaurant-img-uploads/default.jpg" class="w-full h-full" style="object-fit: cover; border-radius: 15px;"/>
-                            }
-                        </div>
-                        <div class="flex justify-between w-full gap-2 mt-4">
-                            <div class="flex flex-col gap-2">
-                                <h2 class="text-gray-700 font-semibold text-lg">@item.Name</h2>
-                                <div class="flex items-center gap-1">
-                                    <span class="text-gray-700 text-sm font-semibold">Delivery Time</span>
-                                    <span class="text-gray-700 text-sm font-semibold">�</span>
-                                    <span class="text-gray-700 text-sm font-semibold">@deliveryTime mins</span>
-                                </div>
-                                <span class="text-gray-700 text-sm font-semibold">[Delivery Fee: @deliveryFee]</span>
+                    @if (Model.Restaurants.Count > 0)
+                    {
+                        var random = new Random();
+                        var deliveryTime = random.Next(5, 60);
+                        var deliveryFee = random.NextDouble() > 0.5 ? "Free" : $"${(random.NextDouble() * 10):0.00}";
+
+                        <a asp-action="RestaurantMenu" asp-route-Id="@item.RestaurantId" class="flex flex-col justify-center items-center">
+                            <div class="mt-2 h-full">
+                                @if (item.Photo != null)
+                                {
+                                    <img src="~/img/restaurant-img-uploads/@item.Photo" class="w-full" style="object-fit: cover; border-radius: 15px;"/>
+                                }
+                                else
+                                {
+                                    <img src="~/img/restaurant-img-uploads/default.jpg" class="w-full h-full" style="object-fit: cover; border-radius: 15px;"/>
+                                }
                             </div>
-                            <div class="h-full flex flex-col gap-4 items-center justify-between">
-                                <div>
-                                    <img src="~/icons/heart.png" class="w-full"/>
+                            <div class="flex justify-between w-full gap-2 mt-4">
+                                <div class="flex flex-col gap-2">
+                                    <h2 class="text-gray-700 font-semibold text-lg">@item.Name</h2>
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-gray-700 text-sm font-semibold">Delivery Time</span>
+                                        <span class="text-gray-700 text-sm font-semibold">�</span>
+                                        <span class="text-gray-700 text-sm font-semibold">@deliveryTime mins</span>
+                                    </div>
+                                    <span class="text-gray-700 text-sm font-semibold">[Delivery Fee: @deliveryFee]</span>
                                 </div>
-                                <div>
-                                    <img src="~/icons/addCart.png" class="w-full"/>
+                                <div class="h-full flex flex-col gap-4 items-center justify-between">
+                                    <div>
+                                        <img src="~/icons/heart.png" class="w-full"/>
+                                    </div>
+                                    <div>
+                                        <img src="~/icons/addCart.png" class="w-full"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    }
+                    else
+                    {
+                        <p>No restaurants found</p>
+                    }
                 }
-                else
-                {
-                    <p>No restaurants found</p>
-                }
-            }
-        </div>
+            </div>
+        }
     </div>
 </div>

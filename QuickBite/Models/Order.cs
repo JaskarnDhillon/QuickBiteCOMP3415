@@ -51,6 +51,8 @@ public class Order
     
     public string? OrderNotes { get; set; }
     
+    public string? OrderFeedback { get; set; }
+    
     //enum for order status
     public OrderStatus OrderStatus { get; set; }
 
