@@ -108,5 +108,39 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Confirmed Orders -->
+        <h2 class="text-xl font-semibold text-purple-600 mt-8 mb-4">Confirmed Orders</h2>
+        <div class="overflow-x-auto bg-white shadow-md rounded-lg mb-8">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead>
+                    <tr class="bg-gray-100 border-b">
+                        <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Order ID</th>
+                        <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Order Address</th>
+                        <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Total Price</th>
+                      
+                        <th class="text-left py-3 px-4 text-gray-600 font-medium uppercase text-sm">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Where(o => o.OrderStatus == OrderStatus.Confirmed))
+                    {
+                        <tr class="bg-purple-100 border-b hover:bg-purple-200">
+                            <td class="py-3 px-4 text-gray-700">@order.OrderId.ToString().Substring(order.OrderId.ToString().Length - 4)</td>
+                            <td class="py-3 px-4 text-gray-700">@order.Address</td>
+                            <td class="py-3 px-4 text-gray-700">$@order.OrderTotal</td>
+                            
+                            <td class="py-3 px-4">
+                                <a href="@Url.Action("Details", "Home", new { id = order.OrderId, area = "DeliveryDriver" })"
+                                   class="text-sm font-medium text-blue-600 hover:text-blue-800">
+                                    View Details
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
     }
 </div>
