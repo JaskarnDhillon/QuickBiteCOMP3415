@@ -2,28 +2,27 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
-    string activeClass = "block px-4 py-2 border-b border-gray-200 w-full bg-blue-700 text-white cursor-pointer";
-    string inactiveClass = "block px-4 py-2 border-b border-gray-200 w-full hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 cursor-pointer";
 }
-
-<div class="max-w-lg mx-auto">
-    <div class="bg-white rounded-lg border border-gray-200 w-48 text-gray-900 text-sm font-medium">
-        <a class="@(ManageNavPages.IndexNavClass(ViewContext) == "active" ? activeClass + " rounded-t-lg" : inactiveClass + " rounded-t-lg")" asp-page="./Index">Profile</a>
-        <a class="@(ManageNavPages.EmailNavClass(ViewContext) == "active" ? activeClass : inactiveClass)" asp-page="./Email">Email</a>
-        <a class="@(ManageNavPages.ChangePasswordNavClass(ViewContext) == "active" ? activeClass : inactiveClass)" asp-page="./ChangePassword">Password</a>
-        @if (hasExternalLogins)
-        {
-            <a class="@(ManageNavPages.ExternalLoginsNavClass(ViewContext) == "active" ? activeClass : inactiveClass)" asp-page="./ExternalLogins">External logins</a>
-        }
-        <a class="@(ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) == "active" ? activeClass : inactiveClass)" asp-page="./TwoFactorAuthentication">Two-factor authentication</a>
-        <a class="@(ManageNavPages.PersonalDataNavClass(ViewContext) == "active" ? activeClass + " rounded-b-lg" : inactiveClass + " rounded-b-lg")" asp-page="./PersonalData">Personal data</a>
-    </div>
-
-    <p class="mt-5">
-        This list group element is part of a larger, open-source library of Tailwind CSS components. Learn more by going to the official
-        <a class="text-blue-600 hover:underline" href="#" target="_blank">Flowbite Documentation</a>.
-    </p>
-</div>
-
-<!-- Include Flowbite JS (if not already included globally) -->
-<script src="https://unpkg.com/@themesberg/flowbite@latest/dist/flowbite.bundle.js"></script>
+<ul class="flex flex-col space-y-2">
+    <li>
+        <a class="block px-4 py-2 rounded hover:bg-gray-100 @ManageNavPages.IndexNavClass(ViewContext)" id="profile" asp-page="./Index">Profile</a>
+    </li>
+    <li>
+        <a class="block px-4 py-2 rounded hover:bg-gray-100 @ManageNavPages.EmailNavClass(ViewContext)" id="email" asp-page="./Email">Email</a>
+    </li>
+    <li>
+        <a class="block px-4 py-2 rounded hover:bg-gray-100 @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" asp-page="./ChangePassword">Password</a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li>
+            <a class="block px-4 py-2 rounded hover:bg-gray-100 @ManageNavPages.ExternalLoginsNavClass(ViewContext)" id="external-login" asp-page="./ExternalLogins">External logins</a>
+        </li>
+    }
+    <li>
+        <a class="block px-4 py-2 rounded hover:bg-gray-100 @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" asp-page="./TwoFactorAuthentication">Two-factor authentication</a>
+    </li>
+    <li>
+        <a class="block px-4 py-2 rounded hover:bg-gray-100 @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" asp-page="./PersonalData">Personal data</a>
+    </li>
+</ul>

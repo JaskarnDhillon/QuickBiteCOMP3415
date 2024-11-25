@@ -5,26 +5,24 @@
     ViewData["ActivePage"] = ManageNavPages.PersonalData;
 }
 
-<h3>@ViewData["Title"]</h3>
+<h3 class="text-xl font-semibold mb-4">@ViewData["Title"]</h3>
 
-<div class="alert alert-warning" role="alert">
-    <p>
-        <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-    </p>
+<div class="p-4 mb-6 text-yellow-800 border border-yellow-300 bg-yellow-50 rounded" role="alert">
+    <p class="font-bold">Deleting this data will permanently remove your account, and this cannot be recovered.</p>
 </div>
 
 <div>
     <form id="delete-user" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+        <div asp-validation-summary="ModelOnly" class="text-red-500 mb-4" role="alert"></div>
         @if (Model.RequirePassword)
         {
-            <div class="form-floating mb-3">
-                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
-                <label asp-for="Input.Password" class="form-label"></label>
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            <div class="mb-4">
+                <label asp-for="Input.Password" class="block text-gray-700 font-medium mb-1">Password</label>
+                <input asp-for="Input.Password" class="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-600" autocomplete="current-password" aria-required="true" placeholder="Please enter your password." />
+                <span asp-validation-for="Input.Password" class="text-red-500"></span>
             </div>
         }
-        <button class="w-100 btn btn-lg btn-danger" type="submit">Delete data and close my account</button>
+        <button class="w-full px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700" type="submit">Delete data and close my account</button>
     </form>
 </div>
 
