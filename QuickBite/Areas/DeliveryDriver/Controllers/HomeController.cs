@@ -86,6 +86,11 @@ namespace QuickBite.Areas.DeliveryDriver.Controllers
 
             // Update the order status
             order.OrderStatus = status;
+
+            if (order.OrderStatus == OrderStatus.Delivered)
+            {
+                order.DeliveryTime = DateTime.Now.ToUniversalTime();
+            }
             _context.SaveChanges();
 
             return RedirectToAction("AssignedOrders");
