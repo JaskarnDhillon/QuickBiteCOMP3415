@@ -1,117 +1,156 @@
-# Software Requirements Specification for QuickBite – a Local Food Delivery System
+# QuickBite Web Application
 
-## 1. Introduction
+**COMP 3415 – Software Engineering**  
+**Last Updated: December 2, 2024**  
 
-### 1.1 Purpose
-The purpose of this document is to specify the requirements, specifications, and scope of QuickBite – a local food delivery system application. It details the functional and non-functional requirements, and application constraints.
+---
 
-### 1.2 Scope
-QuickBite will provide functionality for the following:
+## Project Overview
 
-- Consumer registration and account management.
-- Access to the food catalog to create, view, and cancel food deliveries.
-- Restaurant registration and account management.
-- Access to manage the food catalog, set pricing, and communicate with consumers for their location(s).
-- Administrative access for complete control over the application.
+**QuickBite** is a web-based local food delivery platform designed to connect consumers with their favorite restaurants. It enhances convenience for users while providing restaurants with access to new revenue streams and customer bases. The system includes functional dashboards for consumers, restaurant partners, delivery drivers, and administrators.
 
-The application will be used by consumers, restaurant management, and app administrators.
+---
 
-### 1.3 Definitions, Acronyms, and Abbreviations
-- **Consumer**: A user who accesses the food catalog to make purchases.
-- **Partner**: Restaurant owners and staff who manage their food catalog, set pricing, and communicate with consumers.
-- **Administrator**: Any member of the QuickBite development team with administrative-level privileges.
+## Table of Contents
 
-### 1.4 References
-- **Development Stack**: ASP.NET, Tailwind CSS
-- **Database**: PostgreSQL
-- **Cloud Hosting**: Render, IONOS
-- **UI/UX Design**: Figma
-- **Communication**: Jira, Discord
+1. [System Requirements](#system-requirements)
+2. [Installation Guide](#installation-guide)
+3. [User Manual](#user-manual)
 
-## 2. Overall Description
+---
 
-### 2.1 Product Perspective
-QuickBite is a web-based platform that lets consumers order from all their favorite restaurants from the comfort of their home. It also provides restaurants with access to a new revenue stream, alongside a new customer base.
+## System Requirements
 
-### 2.2 Product Features
-Key features of QuickBite include:
-- Distinct consumer and partner sign-up.
-- Consumer ability to order, view, and cancel food deliveries.
-- Partner ability to confirm orders.
-- Partner ability to customize their food catalog, business hours, and more.
-- Administrator ability to oversee the entire application with no role-based limitations.
-- Direct communication channels between restaurant partners and consumers.
+To deploy and run QuickBite successfully, ensure your environment meets the following requirements:
 
-### 2.3 User Classes and Characteristics
-- **Consumers**: Primary users who will order, view, and cancel food deliveries. They require a simple, easy-to-use interface.
-- **Partners**: Users responsible for managing their restaurant(s), including food catalogs, hours of operation, and more. They require a functional and straightforward interface.
-- **Administrators**: Users who manage the entire application. They require a functional and responsive interface; UX design is not a priority.
+### Development Stack:
+- **ASP.NET Core**: Latest version ([Download here](https://dotnet.microsoft.com/download/dotnet))
+- **Node.js**: Version 23.3.0 or higher ([Download here](https://nodejs.org/))
+- **PostgreSQL**: Version 17.2 or higher ([Download here](https://www.postgresql.org/download/))
 
-### 2.4 Operating Environment
-QuickBite will be a web-based application, built using ASP.NET and PostgreSQL (hosted on Render.com). The application will be accessible and responsive on all devices via modern browsers (Chrome, Firefox, Edge, Safari, etc.).
+### UI/UX Design:
+- **Tailwind CSS**: Version 3.0 ([Documentation](https://tailwindcss.com/docs/installation))
 
-### 2.5 Assumptions and Dependencies
-- Internet access and cookies will be required for the application to function.
-- The application will use third-party mapping software (e.g., Mapbox) for tracking deliveries.
+### Cloud Hosting:
+- **Render** (for PostgreSQL hosting)
+- **IONOS** (for ASP.NET hosting)
 
-## 3. Functional Requirements
+### Additional Tools:
+- **Jira** (Project management)
+- **Figma** (UI/UX design)
+- **Discord** (Team communication)
 
-### 3.1 Consumer Registration Module
-- **FR-1**: Consumers can register and manage their accounts.
-- **FR-2**: Consumers can search, filter, and browse the food catalog.
-- **FR-3**: Consumers can order food deliveries with customization.
-- **FR-4**: Consumers can view and cancel active food deliveries.
-- **FR-5**: Consumers can communicate with restaurant partners.
+---
 
-### 3.2 Restaurant Registration Module
-- **FR-6**: Partners can register and manage their accounts.
-- **FR-7**: Partners can create and manage food catalogs, restaurant hours, and more.
-- **FR-8**: Partners can confirm and cancel food deliveries.
-- **FR-9**: Partners can communicate with consumers.
-- **FR-10**: Partners can view and export order data.
+## Installation Guide
 
-### 3.3 Administrative Control
-- **FR-11**: Administrators can edit and delete consumer and partner accounts.
-- **FR-12**: Administrators can view both consumer and partner data.
-- **FR-13**: Administrators can communicate with consumers and partners.
-- **FR-14**: Administrators can edit and delete food catalogs.
+### 1. Clone the Repository:
+```bash
+git clone https://github.com/JaskarnDhillon/QuickBiteCOMP3415/tree/master.git
+cd QuickBite
+```
 
-## 4. Non-Functional Requirements
+### 2. Install Dependencies
+Ensure you have **Node.js** and **npm** installed. Then, run:
+```bash
+npm install
+```
 
-### 4.1 Performance Requirements
-- **NFR-1**: The application should handle up to 5000 users simultaneously without performance degradation.
-- **NFR-2**: Application loading times should not exceed 3 seconds.
+### 3. Install Tailwind CSS:
+```bash
+npm install -D tailwindcss
+npx tailwindcss init
+```
 
-### 4.2 Security Requirements
-- **NFR-3**: Users must log in for most functionality; anonymous users may view food catalogs but cannot order delivery.
-- **NFR-4**: All passwords and payment information will be encrypted.
+### 4. Setup PostgresSQL Database:
 
-### 4.3 Usability Requirements
-- **NFR-5**: The application will have a simple, easy-to-use interface for all user levels.
-- **NFR-6**: Light mode will be integrated, with the ability to add dark mode in future versions.
+1. **Install PostgreSQL** if not already installed.  
+   Download from [PostgreSQL official site](https://www.postgresql.org/download/).
 
-### 4.4 Availability Requirements
-- **NFR-7**: The application will have 99.9% uptime, excluding scheduled maintenance.
-- **NFR-8**: It will be available on all modern browsers and responsive for all screen sizes.
+2. **Configure the Connection String:**
+   Update your `appsettings.json` with the following connection details:
+   ```json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Host=[hostname];Port=5432;Database=[database];Username=[username];Password=[password];SSL Mode=Require;Trust Server Certificate=true"
+     },
+     "Logging": {
+       "LogLevel": {
+         "Default": "Information",
+         "Microsoft.AspNetCore": "Warning"
+       }
+     },
+     "AllowedHosts": "*"
+   }
 
-### 4.5 Backup and Recovery
-- **NFR-9**: Automatic daily backups will be retained for at least 7 days.
-- **NFR-10**: Lost data due to user error may not be recoverable.
+### 6. Run the Application
 
-## 5. Constraints
-The QuickBite web application will be fully accessible 24/7 (except during scheduled maintenance), but food delivery will depend on user location and restaurant hours. Third-party map software will be supported based on user preferences and permissions.
+Once all dependencies are installed and your PostgreSQL database is configured, you can run the application.
 
-## 6. Appendices
-- [ASP.NET](https://dotnet.microsoft.com/en-us/apps/aspnet)
-- [IONOS](https://www.ionos.com/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Render](https://render.com/)
-- [Figma](https://www.figma.com/)
-- [Jira](https://www.atlassian.com/software/jira)
-- [Discord](https://discord.com/)
-- [Google Chrome](https://www.google.com/chrome/)
-- [Firefox](https://www.mozilla.org/firefox/)
-- [Microsoft Edge](https://www.microsoft.com/edge)
-- [Safari](https://www.apple.com/safari/)
-- [Mapbox](https://www.mapbox.com/)
+1. **Run the Application:**
+   In the terminal, navigate to the project directory and run the following command:
+   ```bash
+   dotnet watch run
+   ```
+
+2. **Access the Application:**
+   - After the application starts, open your browser and go to `https://localhost:5188` (by default).
+   - You should now be able to interact with the QuickBite platform.
+
+3. **Verify the Application:**
+   - Test basic functionality like signing up as a customer, restaurant partner, or driver.
+   - Ensure that all components (frontend and backend) are working together seamlessly.
+
+---
+
+## User Manual
+
+### 1. User Roles
+
+QuickBite includes several user roles, each with specific permissions and functionality:
+
+- **Customer**: Can browse restaurants, place orders, track deliveries, and manage account details.
+- **Restaurant Partner**: Can manage the menu, view orders, and update order statuses.
+- **Delivery Driver**: Can view assigned delivery tasks, update delivery status, and manage deliveries.
+- **Administrator**: Manages system-wide configurations, user roles, and overall system maintenance.
+
+### 2. Signing Up and Logging In
+
+- **Customer**:
+  1. Navigate to the QuickBite homepage.
+  2. Click on the "Sign Up" button.
+  3. Fill in personal information and create an account.
+  4. Log in using your newly created credentials.
+
+- **Restaurant Partner/Delivery Driver**:
+  - If you're an existing restaurant partner or driver, use your provided credentials to log in.
+  - If you're new, register as a restaurant.
+
+### 3. Placing an Order (Customer)
+
+1. Browse the list of available restaurants.
+2. Select your desired restaurant and menu items.
+3. Add items to your cart.
+4. Review your cart and proceed to checkout.
+5. Choose delivery options and payment methods.
+6. Place the order. You'll receive notifications on the order status and delivery progress.
+
+### 4. Managing Orders (Restaurant Partner)
+
+1. Log in to your restaurant dashboard.
+2. View incoming orders and their details.
+3. Update the status of orders (e.g., approved, ready).
+4. Manage the menu and update item availability as needed.
+
+### 5. Managing Deliveries (Delivery Driver)
+
+1. Log in to your delivery driver dashboard.
+2. View assigned deliveries.
+3. Update the delivery status as you progress (e.g., out-for-delivery, delivered).
+4. Complete deliveries and report any issues.
+
+---
+
+## Conclusion
+
+The **QuickBite** platform is designed to make food delivery convenient and efficient for all users, including customers, restaurant partners, delivery drivers, and administrators. By following the installation guide and user manual, you'll be able to set up the platform and begin using it in no time. Future updates will continue to enhance its functionality and usability.
